@@ -5,10 +5,8 @@ document.addEventListener('click', (e) => {
     if(view_comment.contains(e.target)){
         view_comment.classList.add('hidden')
         comment.classList.remove('hidden')
-        comment.classList.add('animate-view')
     }
     if(hide_comment.contains(e.target)){
-        comment.classList.remove('animate-view')
         comment.classList.add('hidden')
         view_comment.classList.remove('hidden')
     }
