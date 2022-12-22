@@ -15,5 +15,6 @@ use \App\Http\Controllers\PostController;
 */
 
 Route::controller(PostController::class)->group(function (){
+    Route::get('/all', 'getAll')->name('allPost');
     Route::get('/post', 'show')->name('showPost');
 });
