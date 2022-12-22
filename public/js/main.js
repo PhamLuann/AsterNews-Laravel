@@ -20,4 +20,13 @@ document.addEventListener('click', (e) => {
             layer.classList.remove('layer')
         }
     }
+    if(document.getElementById('more-category').contains(e.target)){
+        document.getElementById('category-modal').classList.toggle('hidden')
+        document.getElementById('category-modal').classList.add('bg-menu')
+    }else{
+        if (document.getElementById('category-modal').classList.contains('bg-menu')){
+            document.getElementById('category-modal').classList.add('hidden')
+            document.getElementById('category-modal').classList.remove('bg-menu')
+        }
+    }
 })
