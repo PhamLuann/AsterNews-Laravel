@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use \App\Http\Controllers\HomeController;
+use \App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,4 +14,7 @@ use \App\Http\Controllers\HomeController;
 |
 */
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::controller(PostController::class)->group(function (){
+    Route::get('/all', 'getAll')->name('allPost');
+    Route::get('/post', 'show')->name('showPost');
+});
