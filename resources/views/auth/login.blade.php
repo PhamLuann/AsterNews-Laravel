@@ -15,8 +15,9 @@
         <p class="text-primary font-bold text-[40px] hidden md:block">Aster News</p>
     </div>
     <div>
-        <form action="" class="">
-            <input type="text" placeholder="User name" name="username"
+        <form action="{{route('postLogin')}}" method="post" class="">
+            @csrf
+            <input type="text" placeholder="Email" name="email"
                    class="block mt-8 px-6 w-64 md:w-535 h-16 rounded-lg border border-black focus:outline-none focus:border-sky-700 focus:ring-sky-500 focus:ring-2">
             <input type="password" placeholder="Password" name="password"
                    class="block mt-8 px-6 w-64 md:w-535 h-16 rounded-lg border border-black focus:outline-none focus:border-sky-700 focus:ring-sky-500 focus:ring-2">
@@ -24,7 +25,7 @@
                 <div onclick="check()" class="flex items-center hover:cursor-pointer relative">
                     <div class="w-4 h-4 bg-white rounded border border-black"></div>
                     <p class="text-xs ml-2.5">Remember me</p>
-                    <i id="remember"  class="absolute hidden">
+                    <i id="remember" class="absolute hidden">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                              class="bi bi-check" viewBox="0 0 16 16">
                             <path
@@ -34,7 +35,7 @@
                 </div>
                 <a class="text-xs text-skyblue" href="">Forgot password?</a>
             </div>
-            <button
+            <button type="submit"
                 class="mt-7 text-2xl font-bold w-64 md:w-535 py-4 bg-skyblue rounded-lg drop-shadow-xl shadow-black hover:opacity-80">
                 Login
             </button>
@@ -48,7 +49,7 @@
     </div>
 </div>
 <script>
-    function check(){
+    function check() {
         document.getElementById('remember').classList.toggle('hidden');
     }
 </script>

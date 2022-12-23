@@ -11,7 +11,7 @@ module.exports = {
               skyblue: '#2F9FF8',
               opacity: '#072D4B',
               mainbg: '#F4F9F8',
-              menu: 'rgba(42, 61, 39, 0.1)',
+              menu: 'rgba(42, 61, 39, 0.2)',
               amberblack: '#072D4B',
               pink: '#FF8C8C',
               graye5: '#E5E5E5',
