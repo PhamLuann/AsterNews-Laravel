@@ -6,15 +6,19 @@ const layer = document.getElementById('layer')
 document.addEventListener('click', (e) => {
     if (menu_btn.contains(e.target)) {
         menu.classList.toggle('hidden')
-        menu.classList.toggle('unhidden')
+        menu.classList.toggle('absolute')
+        menu.classList.toggle('bg-white')
+        menu.classList.toggle('pt-4')
         small_logo.classList.toggle('hidden')
         large_logo.classList.remove('pt-5')
         layer.classList.add('layer')
     } else {
         // Click Outside from Toggle top menu icon
-        if (menu.classList.contains('unhidden')) {
+        if (menu.classList.contains('absolute')) {
             menu.classList.add('hidden')
-            menu.classList.remove('unhidden')
+            menu.classList.remove('absolute')
+            menu.classList.remove('bg-white')
+            menu.classList.remove('pt-4')
             small_logo.classList.remove('hidden')
             large_logo.classList.add('pt-5')
             layer.classList.remove('layer')

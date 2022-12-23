@@ -11,8 +11,8 @@
         @apply bg-skyblue;
     }
 
-    .unhidden {
-        @apply mt-0 absolute bg-white pt-4;
+    .show-menu {
+        @apply absolute bg-white pt-4;
     }
 
     .layer {

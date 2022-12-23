@@ -3,6 +3,9 @@ module.exports = {
   content: ["./resources/**/*.{blade.php,js}"],
   theme: {
       extend: {
+          screens: {
+              'xs': '450px',
+          },
           colors: {
               primary: '#0768B5',
               skyblue: '#2F9FF8',
@@ -11,6 +14,7 @@ module.exports = {
               menu: 'rgba(42, 61, 39, 0.1)',
               amberblack: '#072D4B',
               pink: '#FF8C8C',
+              graye5: '#E5E5E5',
           },
           spacing: {
               '4/10': '42%',

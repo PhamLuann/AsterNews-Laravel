@@ -10,7 +10,7 @@
 </head>
 <body class="flex justify-center bg-mainbg">
 <div class="">
-    <div class="flex items-center justify-center mt-4 md:mt-28 w-64 md:w-535">
+    <div class="flex items-center justify-center mt-4 w-64 md:w-535">
         <img src="{{asset('./img/splash-logo.png')}}" alt="logo" class="">
         <p class="text-primary font-bold text-[40px] hidden md:block">Aster News</p>
     </div>

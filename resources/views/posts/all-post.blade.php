@@ -290,15 +290,15 @@
     <!-- end row 5 -->
     <div class="flex justify-center mt-12">
         <div class="flex">
-            <a href=""><img src="{{asset('./img/icon/left.png')}}" class="rounded-l-md border border-gray-500 p-2"></a>
-            <a href="" class="border border-gray-500 w-8 h-[35px] flex items-center justify-center">1</a>
-            <a href="" class="border border-gray-500 w-8 h-[35px] flex items-center justify-center">2</a>
-            <a href="" class="border border-gray-500 w-8 h-[35px] flex items-center justify-center">3</a>
-            <a href="" class="border border-gray-500 w-8 h-[35px] flex items-center justify-center">4</a>
-            <a href="" class="border border-gray-500 w-8 h-[35px] flex items-center justify-center">...</a>
-            <a href="" class="border border-gray-500 w-8 h-[35px] flex items-center justify-center">998</a>
-            <a href="" class="border border-gray-500 w-8 h-[35px] flex items-center justify-center">999</a>
-            <a href=""><img src="{{asset('./img/icon/right.png')}}" class="rounded-r-md border border-gray-500 p-2"></a>
+            <a href=""><img src="{{asset('./img/icon/left.png')}}" class="rounded-l-md border border-gray-500 p-2 hover:opacity-60"></a>
+            <a href="" class="border border-gray-500 w-8 h-[35px] flex items-center justify-center hover:opacity-60">1</a>
+            <a href="" class="border border-gray-500 w-8 h-[35px] flex items-center justify-center hover:opacity-60">2</a>
+            <a href="" class="border border-gray-500 w-8 h-[35px] flex items-center justify-center hover:opacity-60">3</a>
+            <a href="" class="border border-gray-500 w-8 h-[35px] flex items-center justify-center hover:opacity-60">4</a>
+            <a href="" class="border border-gray-500 w-8 h-[35px] flex items-center justify-center hover:opacity-60">...</a>
+            <a href="" class="border border-gray-500 w-8 h-[35px] flex items-center justify-center hover:opacity-60">998</a>
+            <a href="" class="border border-gray-500 w-8 h-[35px] flex items-center justify-center hover:opacity-60">999</a>
+            <a href=""><img src="{{asset('./img/icon/right.png')}}" class="rounded-r-md border border-gray-500 p-2 hover:opacity-60"></a>
         </div>
     </div>
 @stop

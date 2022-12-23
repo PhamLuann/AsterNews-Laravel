@@ -2,13 +2,13 @@
     <div class="">
         <div id="small-logo" class="lg:hidden ml-3.5 flex items-center">
             <button id="menu_btn"><img src="./img/icon/menu-icon.png" class="w-6 mr-4"></button>
-            <img src="./img/logo.png" alt="logo">
+            <a href="{{route('home')}}"><img src="./img/logo.png" alt="logo"></a>
         </div>
         <div id="menu" class="hidden lg:block pb-10">
-            <div id="large" class="ml-8 flex items-center pt-5">
+            <a id="large" class="ml-8 flex items-center pt-5" href="{{route('home')}}">
                 <img src="./img/logo.png" alt="logo">
                 <p class="ml-3.5 font-bold text-lg text-primary">Aster News</p>
-            </div>
+            </a>
             <ul class="mt-7 font-normal mr-11 lg:mr-0">
                 <li class="flex items-center py-4 pl-3.5 hover:cursor-pointer select-menu">
                     <img src="./img/icon/home.png" class="w-5 ml-6">
