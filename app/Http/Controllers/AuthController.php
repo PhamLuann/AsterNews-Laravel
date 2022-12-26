@@ -16,10 +16,10 @@ class AuthController extends Controller
         $email = $request->get('email');
         $password = $request->get('password');
         $user = User::where('email', $email)->where('password', $password)->first();
-        $_SESSION['name'] = $user['name'];
         if($user == null){
-            return redirect(route('login'));
+            return redirect(route('login'))->with('msg', 'User or Password incorrect');
         }else{
+            $_SESSION['name'] = $user['name'];
             if($user['role']=='admin'){
                 return redirect(route('admin.home'));
             }else{
