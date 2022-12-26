@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,6 +29,7 @@
 @include('partials.footer')
 @include('partials.modal')
 @include('partials.script')
+@include('admin.partials.js')
 </body>
 
 </html>

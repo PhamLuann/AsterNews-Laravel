@@ -21,8 +21,18 @@
     <div class="w-1/4 mr-4">
         <div class="h-full flex items-center float-right">
             <img src="./img/icon/person-icon.png" class="w-6">
-            <a class="text-sm ml-4 lg:mr-9" href="{{route('login')}}">Login</a>
-            <img src="./img/icon/down-icon.png" class="hidden lg:block w-4">
+            @if(isset($_SESSION['name']))
+                <a class="text-sm ml-4 lg:mr-9" href="">{{$_SESSION['name']}}</a>
+            @else
+                <a class="text-sm ml-4 lg:mr-9" href="{{route('login')}}">Login</a>
+            @endif
+            <img id="view-profile" src="./img/icon/down-icon.png" class="hidden lg:block w-4">
+        </div>
+        <div class="hidden" id="profile">
+            <ul class="absolute top-10 right-4 bg-gray-500 p-4 rounded z-10">
+                <li class=""><a href="" class="text-black">Profile</a></li>
+                <li class="mt-4"><a href="{{route('logout')}}" class="text-black">Logout</a></li>
+            </ul>
         </div>
     </div>
     <!-- end user -->

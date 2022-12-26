@@ -15,6 +15,7 @@
     @include('admin.partials.header')
     @yield('content')
     @include('partials.footer')
+    @include('admin.partials.js')
 </div>
 </body>
 </html>
