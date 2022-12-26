@@ -2,16 +2,15 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use App\Models\Role;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class DatabaseSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * Run the database seeds.
      *
      * @return void
      */
@@ -21,9 +20,9 @@ class DatabaseSeeder extends Seeder
         DB::table('role_users')->truncate();
         DB::table('activations')->truncate();
         $admin = [
-             'name' => 'Admin',
-             'email' => 'admin@admin.com',
-             'password' => '1111',
+            'name' => 'Admin',
+            'email' => 'admin@admin.com',
+            'password' => '1111',
         ];
         $insertAdmin = Sentinel::registerAndActivate($admin);
         $role = Sentinel::findRoleBySlug('admin');
