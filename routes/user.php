@@ -14,7 +14,7 @@ use \App\Http\Controllers\UserController;
 |
 */
 
-Route::prefix('users')->name('user.')->group(function () {
+Route::prefix('users')->middleware(['sentinel.auth', 'sentinel.admin'])->name('user.')->group(function () {
     Route::get('/add', [UserController::class, 'create'])->name('create');
     Route::post('/add', [UserController::class, 'postCreate'])->name('postCreate');
     Route::get('/update/{id}', [UserController::class, 'update'])->name('update');

@@ -226,13 +226,13 @@ return [
         ],
 
         'ip' => [
-            'interval' => 900,
+            'interval' => 60,
 
             'thresholds' => 5,
         ],
 
         'user' => [
-            'interval' => 900,
+            'interval' => 60,
 
             'thresholds' => 5,
         ],

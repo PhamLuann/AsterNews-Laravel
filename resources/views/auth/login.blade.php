@@ -17,12 +17,17 @@
     <div>
         <form action="{{route('postLogin')}}" method="post" class="">
             @csrf
-            <input type="text" placeholder="Email" name="email"
+            <input type="text" placeholder="Email" name="email" value="{{old('email')}}"
                    class="block mt-8 px-6 w-64 md:w-535 h-16 rounded-lg border border-black focus:outline-none focus:border-sky-700 focus:ring-sky-500 focus:ring-2">
-            <input type="password" placeholder="Password" name="password"
+            @error('email')
+            <div class="invalid-feedback">
+                {{ $message }}
+            </div>
+            @enderror
+            <input type="password" placeholder="Password" name="password" value="{{old('password')}}"
                    class="block mt-8 px-6 w-64 md:w-535 h-16 rounded-lg border border-black focus:outline-none focus:border-sky-700 focus:ring-sky-500 focus:ring-2">
-            @if(session('msg'))
-                <p class="mt-3 text-red-700">{{session('msg')}}</p>
+            @if(session('err'))
+                <p class="mt-3 text-red-700">{{session('err')}}</p>
             @endif
             <div class="w-64 md:w-535 mt-6 h-fit flex justify-between">
                 <div onclick="check()" class="flex items-center hover:cursor-pointer relative">

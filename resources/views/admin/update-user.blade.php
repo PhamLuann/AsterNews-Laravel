@@ -1,7 +1,7 @@
 @extends('admin.layouts.admin')
 @section('title', 'Update User')
 @section('content')
-    <div class="flex justify-center">
+    <div class="flex justify-center min-h-screen">
         <form action="{{route('user.postUpdate')}}" method="post">
             @csrf
             <input type="text" name="id" value="{{$user['id']}}"
@@ -14,12 +14,12 @@
                    class="block mt-8 px-6 w-64 md:w-535 h-16 rounded-lg border border-black focus:outline-none focus:border-sky-700 focus:ring-sky-500 focus:ring-2">
             <select name="role"
                     class="block bg-white mt-8 px-6 w-64 md:w-535 h-16 rounded-lg border border-black focus:outline-none focus:border-sky-700 focus:ring-sky-500 focus:ring-2">
-                @if($user['role']=='admin')
-                    <option value="admin">Admin</option>
-                    <option value="user">User</option>
+                @if($role['name'] =='admin')
+                    <option value="1">Admin</option>
+                    <option value="2">User</option>
                 @else
-                    <option value="user">User</option>
-                    <option value="admin">Admin</option>
+                    <option value="2">User</option>
+                    <option value="1">Admin</option>
                 @endif
             </select>
             <button type="submit"

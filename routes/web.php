@@ -16,6 +16,6 @@ use \App\Http\Controllers\Admin\AdminController;
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::prefix('admin')->name('admin.')->group(function (){
+Route::prefix('admin')->middleware(['sentinel.auth', 'sentinel.admin'])->name('admin.')->group(function (){
    Route::get('/', [AdminController::class, 'index'])->name('home');
 });
