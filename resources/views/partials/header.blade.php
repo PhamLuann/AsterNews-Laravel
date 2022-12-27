@@ -26,7 +26,7 @@
             @else
                 <a class="text-sm ml-4 lg:mr-9" href="{{route('login')}}">Login</a>
             @endif
-            <img id="view-profile" src="./img/icon/down-icon.png" class="hidden lg:block w-4">
+            <img id="view-profile" src="./img/icon/down-icon.png" class="hidden lg:block w-4 hover:cursor-pointer">
         </div>
         <div class="hidden" id="profile">
             <ul class="absolute top-10 right-4 bg-gray-500 p-4 rounded z-10">
