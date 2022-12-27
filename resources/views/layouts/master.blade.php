@@ -16,9 +16,9 @@
     @include('partials.left-side')
     <div class="col-span-4 mt-4 mr-4 ml-4 lg:ml-0">
         @include('partials.header')
+        @include('partials.__alert')
         <div class="lg:grid lg:grid-cols-4 lg:gap-11">
             <div class="col-span-3">
-                @include('partials.category')
                 @yield('content')
             </div>
             @include('partials.right-side')

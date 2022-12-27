@@ -1,5 +1,5 @@
-@extends('admin.layouts.admin')
-@section('title', 'Update User')
+@extends('layouts.master')
+@section('title', 'Profile')
 @section('content')
     <div class="flex justify-center min-h-screen">
         <form action="{{route('user.postUpdate')}}" method="post">

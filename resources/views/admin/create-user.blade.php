@@ -3,7 +3,7 @@
 @section('content')
     <div class="min-h-screen">
         <div class="flex justify-center">
-            <form action="{{route('user.postCreate')}}" method="post">
+            <form action="{{route('admin.postCreate')}}" method="post">
                 @csrf
                 <input type="text" placeholder="Name" name="name" value="{{old('name')}}"
                        class="block mt-8 px-6 w-64 md:w-535 h-16 rounded-lg border border-black focus:outline-none focus:border-sky-700 focus:ring-sky-500 focus:ring-2">

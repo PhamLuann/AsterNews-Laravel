@@ -1,6 +1,7 @@
 @extends('layouts.master')
 @section('title', 'Home')
 @section('content')
+    @include('partials.category')
     <div id="post" class="mt-6">
         <div id="post-1" class="w-full h-fit bg-white py-4 pr-3 pl-7 flex">
             <div class="basis-full lg:basis-4/5">

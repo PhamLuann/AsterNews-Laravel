@@ -35,17 +35,17 @@ class UserController extends Controller
         }
     }
     public function update($id){
-        $user = User::find($id);
+        $user = Sentinel::findUserById($id);
         $role = Role::select(['roles.name as name'])->join('role_users', 'role_users.role_id', 'id')->where('user_id', $id)->first();
         return view('admin.update-user', compact('user', 'role'));
     }
     public function postUpdate(RegisterRequest $request){
-        $user = User::find($request->get('id'));
+        $userId = $request->get('id');
+        $user = Sentinel::findUserById($userId);
         if($user){
-            $user->name = $request->get('name');
-            $user->password = $request->get('password');
+            Sentinel::update($user, $request->all());
             $role = DB::table('role_users')
-                ->where('user_id', $request->get('id'))
+                ->where('user_id', $userId)
                 ->update([
                 'role_id' => $request->get('role'),
             ]);

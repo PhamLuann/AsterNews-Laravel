@@ -2,7 +2,7 @@
 @section('title', 'Update User')
 @section('content')
     <div class="flex justify-center min-h-screen">
-        <form action="{{route('user.postUpdate')}}" method="post">
+        <form action="{{route('admin.postUpdate')}}" method="post">
             @csrf
             <input type="text" name="id" value="{{$user['id']}}"
                    class="block mt-8 px-6 w-64 md:w-535 h-16 rounded-lg border border-black focus:outline-none focus:border-sky-700 focus:ring-sky-500 focus:ring-2" readonly>
