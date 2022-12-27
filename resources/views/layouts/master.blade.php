@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{asset('css/tailwind.css')}}">
-    <script src="{{asset('./js/main.js')}}" async></script>
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
     <title>@yield('title')</title>
 </head>
@@ -29,7 +28,6 @@
 @include('partials.footer')
 @include('partials.modal')
 @include('partials.script')
-@include('admin.partials.js')
 </body>
 
 </html>
