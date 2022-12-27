@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegisterRequest;
 use App\Models\Role;
 use App\Models\RoleUser;
 use App\Models\User;
@@ -14,12 +15,15 @@ class UserController extends Controller
     public function create(){
         return view('admin.create-user');
     }
-    public function postCreate(Request $request){
+    public function postCreate(RegisterRequest $request){
         $user = [
             'name' => $request->get('name'),
             'email' =>$request->get('email'),
             'password' => $request->get('password'),
         ];
+        if(Email::checkEmail($user['email'])){
+            return redirect()->back()->withInput()->with('emailErr', 'Email is already exist!');
+        }
         $role_id = $request->get('role');
         $create = Sentinel::registerAndActivate($user);
         $roleUser = Sentinel::findRoleById($role_id);
@@ -27,7 +31,7 @@ class UserController extends Controller
         if($create){
             return redirect(route('admin.home'));
         }else{
-            return redirect(route('user.create'));
+            return redirect()->back()->withInput();
         }
     }
     public function update($id){
@@ -45,7 +49,7 @@ class UserController extends Controller
                 ->update([
                 'role_id' => $request->get('role'),
             ]);
-            if ($user->save() && $role){
+            if ($user->save()){
                 return redirect(route('admin.home'))->with('msg', 'Update Success!');
             }
         }

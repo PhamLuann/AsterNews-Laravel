@@ -19,6 +19,7 @@ class AdminController extends Controller
         ])
             ->join('role_users as ru', 'ru.user_id', 'users.id')
             ->join('roles', 'roles.id', 'ru.role_id')
+            ->orderBy('id', 'desc')
             ->paginate(30);
         return view('admin.index', compact('users'));
     }

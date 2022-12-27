@@ -15,14 +15,27 @@
         <p class="text-primary font-bold text-[40px] hidden md:block">Aster News</p>
     </div>
     <div>
-        <form action="" class="">
-            <input type="text" placeholder="Email" name="email"
+        <form action="{{route('doRegister')}}" method="post">
+            @csrf
+            <input type="text" placeholder="Email" name="email" value="{{old('email')}}"
                    class="block mt-8 px-6 w-64 md:w-535 h-16 rounded-lg border border-black focus:outline-none focus:border-sky-700 focus:ring-sky-500 focus:ring-2">
-            <input type="password" placeholder="Name" name="name"
+            @if(session('emailErr'))
+                <p class="text-red-500">{{session('emailErr')}}</p>
+            @endif
+            @if($errors->first('email'))
+                <p class="text-red-500">{{$errors->first('email')}}</p>
+            @endif
+            <input type="text" placeholder="Name" name="name" value="{{old('name')}}"
                    class="block mt-8 px-6 w-64 md:w-535 h-16 rounded-lg border border-black focus:outline-none focus:border-sky-700 focus:ring-sky-500 focus:ring-2">
+            @if($errors->first('name'))
+                <p class="text-red-500">{{$errors->first('name')}}</p>
+            @endif
             <input type="password" placeholder="Password" name="password"
                    class="block mt-8 px-6 w-64 md:w-535 h-16 rounded-lg border border-black focus:outline-none focus:border-sky-700 focus:ring-sky-500 focus:ring-2">
-            <button
+            @if($errors->first('password'))
+                <p class="text-red-500">{{$errors->first('password')}}</p>
+            @endif
+            <button type="submit"
                 class="mt-7 text-2xl font-bold w-64 md:w-535 py-4 bg-skyblue rounded-lg drop-shadow-xl shadow-black hover:opacity-80">
                 Register
             </button>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 session_start();
 
+use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Cartalyst\Sentinel\Checkpoints\NotActivatedException;
@@ -23,7 +24,9 @@ class AuthController extends Controller
     {
         try {
             if (Sentinel::authenticate($request->all())) {
-                if(Sentinel::getUser()->inRole('admin')){
+                $user = Sentinel::getUser();
+                $_SESSION['name'] = $user['name'];
+                if($user->inRole('admin')){
                     return redirect(route('admin.home'));
                 }else{
                     return redirect(route('home'));
@@ -46,14 +49,29 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
-    public function postRegister()
-    {
-
+    public function doRegister(RegisterRequest $request){
+        $user = [
+            'name' => $request->get('name'),
+            'email' =>$request->get('email'),
+            'password' => $request->get('password'),
+        ];
+        if(Email::checkEmail($user['email'])){
+            return redirect()->back()->withInput()->with('emailErr', 'Email is already exist!');
+        }
+        $role_id = 2;
+        $create = Sentinel::registerAndActivate($user);
+        $roleUser = Sentinel::findRoleById($role_id);
+        $roleUser->users()->attach($create);
+        if($create){
+            return redirect(route('login'))->withInput();
+        }else{
+            return redirect()->back()->withInput();
+        }
     }
 
     public function logout()
     {
-        session_destroy();
+        Sentinel::logout();
         return redirect(route('login'));
     }
 }

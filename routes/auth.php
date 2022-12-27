@@ -18,6 +18,6 @@ Route::controller(AuthController::class)->group(function () {
     Route::get('/login', 'login')->name('login');
     Route::post('/login', 'postLogin')->name('postLogin');
     Route::get('/register', 'register')->name('register');
-    Route::post('/register', 'postRegister')->name('postRegister');
+    Route::post('/register', 'doRegister')->name('doRegister');
     Route::get('/logout', 'logout')->name('logout');
 });
