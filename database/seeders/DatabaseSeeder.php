@@ -17,6 +17,16 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        DB::table('roles')->truncate();
+        Role::factory()->create([
+            'slug'=>'admin',
+            'name'=>'admin',
+        ]);
+        Role::factory()->create([
+            'slug'=>'user',
+            'name'=>'user',
+        ]);
+
         DB::table('users')->truncate();
         DB::table('role_users')->truncate();
         DB::table('activations')->truncate();

@@ -115,11 +115,11 @@ class MigrationCartalystSentinel extends Migration
     public function down()
     {
         Schema::drop('activations');
+        Schema::drop('throttle');
         Schema::drop('persistences');
         Schema::drop('reminders');
-        Schema::drop('roles');
         Schema::drop('role_users');
-        Schema::drop('throttle');
+        Schema::drop('roles');
         Schema::drop('users');
     }
 }
