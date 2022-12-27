@@ -1,7 +1,8 @@
 <?php
 
+use App\Http\Controllers\Admin\UserController;
+use \App\Http\Controllers\User\UserController as Users;
 use Illuminate\Support\Facades\Route;
-use \App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,10 +15,15 @@ use \App\Http\Controllers\UserController;
 |
 */
 
-Route::prefix('users')->middleware(['sentinel.auth', 'sentinel.admin'])->name('user.')->group(function () {
-    Route::get('/add', [UserController::class, 'create'])->name('create');
-    Route::post('/add', [UserController::class, 'postCreate'])->name('postCreate');
-    Route::get('/update/{id}', [UserController::class, 'update'])->name('update');
-    Route::post('/update', [UserController::class, 'postUpdate'])->name('postUpdate');
-    Route::delete('/delete', [UserController::class, 'destroy'])->name('delete');
+Route::prefix('admin')->controller(UserController::class)->name('admin.')->group(function () {
+    Route::get('/add', 'create')->name('create');
+    Route::post('/add', 'postCreate')->name('postCreate');
+    Route::get('/update/{id}', 'update')->name('update');
+    Route::post('/update', 'postUpdate')->name('postUpdate');
+    Route::middleware(['sentinel.auth', 'sentinel.admin'])->delete('/delete', 'destroy')->name('delete');
+});
+
+Route::prefix('user')->controller(Users::class)->name('user.')->group(function (){
+    Route::get('update/{id}', 'update')->name('update');
+    Route::post('/update', 'postUpdate')->name('postUpdate');
 });

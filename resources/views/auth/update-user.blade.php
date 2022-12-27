@@ -1,7 +1,7 @@
 @extends('layouts.master')
 @section('title', 'Profile')
 @section('content')
-    <div class="flex justify-center min-h-screen">
+    <div class="flex justify-center items-center h-full">
         <form action="{{route('user.postUpdate')}}" method="post">
             @csrf
             <input type="text" name="id" value="{{$user['id']}}"

@@ -26,6 +26,7 @@ class AuthController extends Controller
             if (Sentinel::authenticate($request->all())) {
                 $user = Sentinel::getUser();
                 $_SESSION['name'] = $user['name'];
+                $_SESSION['uID'] = $user['id'];
                 if($user->inRole('admin')){
                     return redirect(route('admin.home'));
                 }else{
@@ -58,9 +59,9 @@ class AuthController extends Controller
         if(Email::checkEmail($user['email'])){
             return redirect()->back()->withInput()->with('emailErr', 'Email is already exist!');
         }
-        $role_id = 2;
+        $role_user = 2;
         $create = Sentinel::registerAndActivate($user);
-        $roleUser = Sentinel::findRoleById($role_id);
+        $roleUser = Sentinel::findRoleById($role_user);
         $roleUser->users()->attach($create);
         if($create){
             return redirect(route('login'))->withInput();
@@ -71,6 +72,7 @@ class AuthController extends Controller
 
     public function logout()
     {
+        session_destroy();
         Sentinel::logout();
         return redirect(route('login'));
     }

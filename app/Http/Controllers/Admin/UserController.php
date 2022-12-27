@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\Email;
 use App\Http\Requests\RegisterRequest;
 use App\Models\Role;
 use App\Models\RoleUser;
@@ -49,9 +51,7 @@ class UserController extends Controller
                 ->update([
                 'role_id' => $request->get('role'),
             ]);
-            if ($user->save()){
-                return redirect(route('admin.home'))->with('msg', 'Update Success!');
-            }
+            return redirect(route('admin.home'))->with('msg', 'Update Success!');
         }
     }
     public function destroy(Request $request){
