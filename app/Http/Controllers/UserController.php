@@ -39,7 +39,7 @@ class UserController extends Controller
         $role = Role::select(['roles.name as name'])->join('role_users', 'role_users.role_id', 'id')->where('user_id', $id)->first();
         return view('admin.update-user', compact('user', 'role'));
     }
-    public function postUpdate(Request $request){
+    public function postUpdate(RegisterRequest $request){
         $user = User::find($request->get('id'));
         if($user){
             $user->name = $request->get('name');
