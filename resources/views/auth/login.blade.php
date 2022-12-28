@@ -15,15 +15,11 @@
         <p class="text-primary font-bold text-[40px] hidden md:block">Aster News</p>
     </div>
     <div>
+        @include('partials.__alert')
         <form action="{{route('postLogin')}}" method="post" class="">
             @csrf
             <input type="text" placeholder="Email" name="email" value="{{old('email')}}"
                    class="block mt-8 px-6 w-64 md:w-535 h-16 rounded-lg border border-black focus:outline-none focus:border-sky-700 focus:ring-sky-500 focus:ring-2">
-            @error('email')
-            <div class="invalid-feedback">
-                {{ $message }}
-            </div>
-            @enderror
             <input type="password" placeholder="Password" name="password" value="{{old('password')}}"
                    class="block mt-8 px-6 w-64 md:w-535 h-16 rounded-lg border border-black focus:outline-none focus:border-sky-700 focus:ring-sky-500 focus:ring-2">
             @if(session('err'))
@@ -49,7 +45,7 @@
             </button>
         </form>
         <div class="flex items-center mt-4 w-64 md:w-535 justify-center">
-            <a href="{{route('register')}}" class="text-skyblue font-bold">Register</a>
+            <a href="{{route('register.form')}}" class="text-skyblue font-bold">Register</a>
             <p class="ml-1">or Sign in with</p>
             <a href=""><img src="{{asset('./img/icon/facebook.png')}}" alt="facebook" class="w-5 mx-3.5"></a>
             <a href=""><img src="{{asset('./img/icon/google.png')}}" alt="google" class="w-5"></a>

@@ -15,7 +15,8 @@
         <p class="text-primary font-bold text-[40px] hidden md:block">Aster News</p>
     </div>
     <div>
-        <form action="{{route('doRegister')}}" method="post">
+        @include('partials.__alert')
+        <form action="{{route('register.process')}}" method="post">
             @csrf
             <input type="text" placeholder="Email" name="email" value="{{old('email')}}"
                    class="block mt-8 px-6 w-64 md:w-535 h-16 rounded-lg border border-black focus:outline-none focus:border-sky-700 focus:ring-sky-500 focus:ring-2">

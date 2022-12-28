@@ -1,5 +1,5 @@
 @if(session('msg'))
-    <div id="alert" class="w-60 h-20 bg-green-400 rounded-xl fixed z-10 flex items-center justify-center">
+    <div id="alert" class="px-5 w-fit h-20 bg-green-400 rounded-xl fixed z-10 flex items-center justify-center">
         {{session('msg')}}
     </div>
     <script>
@@ -10,7 +10,7 @@
 @endif
 
 @if(session('err'))
-    <div id="alert" class="w-60 h-20 bg-green-400 rounded-xl fixed z-10 flex items-center justify-center">
+    <div id="alert" class="px-5 w-fit h-20 bg-red-600 rounded-xl fixed z-10 flex items-center justify-center">
         {{session('err')}}
     </div>
     <script>

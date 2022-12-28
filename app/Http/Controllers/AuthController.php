@@ -34,7 +34,7 @@ class AuthController extends Controller
                 }
             } else {
                 $err = "Username or Password incorrect!";
-                return redirect()->back()->with('err', $err);
+                return redirect()->back()->with('err', $err)->withInput();
             }
         }catch (NotActivatedException $e){
             $err = "Account not active!";
@@ -43,32 +43,6 @@ class AuthController extends Controller
             $err = "You has been blocked in {$delay} seconds!";
         }
         return redirect()->back()->withInput()->with('err', $err);
-    }
-
-    public function register()
-    {
-        return view('auth.register');
-    }
-
-    public function doRegister(RegisterRequest $request){
-        $user = [
-            'name' => $request->get('name'),
-            'email' =>$request->get('email'),
-            'password' => $request->get('password'),
-            'createBy' => 'Registration',
-        ];
-        if(Email::checkEmail($user['email'])){
-            return redirect()->back()->withInput()->with('emailErr', 'Email is already exist!');
-        }
-        $role_user = 2;
-        $create = Sentinel::registerAndActivate($user);
-        $roleUser = Sentinel::findRoleById($role_user);
-        $roleUser->users()->attach($create);
-        if($create){
-            return redirect(route('login'))->withInput();
-        }else{
-            return redirect()->back()->withInput();
-        }
     }
 
     public function logout()
