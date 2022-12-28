@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
+session_start();
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -14,7 +14,11 @@ class AdminController extends Controller
             'users.id',
             'users.name',
             'users.email',
-            'users.password',
+            'users.createBy',
+            'users.updateBy',
+            'users.last_login',
+            'users.created_at',
+            'users.updated_at',
             'roles.name AS role',
         ])
             ->join('role_users as ru', 'ru.user_id', 'users.id')

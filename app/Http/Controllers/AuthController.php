@@ -55,6 +55,7 @@ class AuthController extends Controller
             'name' => $request->get('name'),
             'email' =>$request->get('email'),
             'password' => $request->get('password'),
+            'createBy' => 'Registration',
         ];
         if(Email::checkEmail($user['email'])){
             return redirect()->back()->withInput()->with('emailErr', 'Email is already exist!');

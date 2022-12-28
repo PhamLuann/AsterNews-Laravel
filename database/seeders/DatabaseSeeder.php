@@ -34,6 +34,7 @@ class DatabaseSeeder extends Seeder
              'name' => 'Admin',
              'email' => 'admin@admin.com',
              'password' => '1111',
+             'createBy' => 'Seeder',
         ];
         $insertAdmin = Sentinel::registerAndActivate($admin);
         $role = Sentinel::findRoleBySlug('admin');
@@ -43,6 +44,7 @@ class DatabaseSeeder extends Seeder
             'name' => fake()->name(),
             'email' =>fake()->safeEmail(),
             'password' => '1234567@',
+            'createBy' => 'Seeder',
         ];
         for($i=1; $i<=100; $i++){
             $user['name'] = fake()->name();

@@ -16,19 +16,27 @@
                     <th class="border">No</th>
                     <th class="border">Name</th>
                     <th class="border">Email</th>
-                    <th class="border">Password</th>
-                    <th class="border">Role</th>
-                    <th class="border"></th>
+                    <th class="border text-center">Role</th>
+                    <th class="border text-center">Create By</th>
+                    <th class="border text-center">Update By</th>
+                    <th class="border text-center">Last login</th>
+                    <th class="border text-center">Create at</th>
+                    <th class="border text-center">Update at</th>
+                    <th class="border text-center"></th>
                 </tr>
                 </thead>
                 <tbody>
                 @forelse($users as $user)
                     <tr class="border-2">
-                        <td>{{ $loop->iteration + ($users->currentPage() -1) * $users->perPage() }}</td>
-                        <td>{{$user['name']}}</td>
-                        <td>{{$user['email']}}</td>
-                        <td>{{$user['password']}}</td>
-                        <td>{{$user['role']}}</td>
+                        <td class="border">{{ $loop->iteration + ($users->currentPage() -1) * $users->perPage() }}</td>
+                        <td class="border">{{$user['name']}}</td>
+                        <td class="border">{{$user['email']}}</td>
+                        <td class="border text-center">{{$user['role']}}</td>
+                        <td class="border text-center">{{$user['createBy']}}</td>
+                        <td class="border text-center">{{$user['updateBy']}}</td>
+                        <td class="border text-center">{{$user['last_login']}}</td>
+                        <td class="border text-center">{{$user['created_at']}}</td>
+                        <td class="border text-center">{{$user['updated_at']}}</td>
                         <td class="flex justify-center">
                             <form action="{{route('admin.delete')}}" method="post">
                                 @csrf

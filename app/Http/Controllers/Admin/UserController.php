@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
+session_start();
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Email;
 use App\Http\Requests\RegisterRequest;
@@ -18,16 +18,12 @@ class UserController extends Controller
         return view('admin.create-user');
     }
     public function postCreate(RegisterRequest $request){
-        $user = [
-            'name' => $request->get('name'),
-            'email' =>$request->get('email'),
-            'password' => $request->get('password'),
-        ];
-        if(Email::checkEmail($user['email'])){
+        $request->offsetSet('createBy', $_SESSION['name']);
+        if(Email::checkEmail($request->get('email'))){
             return redirect()->back()->withInput()->with('emailErr', 'Email is already exist!');
         }
         $role_id = $request->get('role');
-        $create = Sentinel::registerAndActivate($user);
+        $create = Sentinel::registerAndActivate($request->all());
         $roleUser = Sentinel::findRoleById($role_id);
         $roleUser->users()->attach($create);
         if($create){
@@ -42,6 +38,7 @@ class UserController extends Controller
         return view('admin.update-user', compact('user', 'role'));
     }
     public function postUpdate(RegisterRequest $request){
+        $request->offsetSet('updateBy', $_SESSION['name']);
         $userId = $request->get('id');
         $user = Sentinel::findUserById($userId);
         if($user){

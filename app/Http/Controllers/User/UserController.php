@@ -16,6 +16,7 @@ class UserController extends Controller
     }
 
     public function postUpdate(RegisterRequest $request){
+        $request->offsetSet('updateBy', 'User');
         $user = Sentinel::findUserById($request->get('id'));
         if(Sentinel::update($user, $request->all())){
             return redirect(route('home'))->with('msg', 'Update success!');
