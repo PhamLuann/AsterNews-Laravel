@@ -20,10 +20,20 @@
             @csrf
             <input type="text" placeholder="Email" name="email" value="{{old('email')}}"
                    class="block mt-8 px-6 w-64 md:w-535 h-16 rounded-lg border border-black focus:outline-none focus:border-sky-700 focus:ring-sky-500 focus:ring-2">
+            @error('email')
+            <p class="text-red-600">
+                {{ $message }}
+            </p>
+            @enderror
             <input type="password" placeholder="Password" name="password" value="{{old('password')}}"
                    class="block mt-8 px-6 w-64 md:w-535 h-16 rounded-lg border border-black focus:outline-none focus:border-sky-700 focus:ring-sky-500 focus:ring-2">
-            @if(session('err'))
-                <p class="mt-3 text-red-700">{{session('err')}}</p>
+            @error('password')
+            <p class="text-red-600">
+                {{ $message }}
+            </p>
+            @enderror
+            @if(session('errLogin'))
+                <p class="mt-3 text-red-700">{{session('errLogin')}}</p>
             @endif
             <div class="w-64 md:w-535 mt-6 h-fit flex justify-between">
                 <div onclick="check()" class="flex items-center hover:cursor-pointer relative">

@@ -4,13 +4,10 @@ namespace App\Http\Controllers;
 
 session_start();
 
-use App\Http\Requests\RegisterRequest;
-use App\Http\Requests\UserRequest;
-use App\Models\User;
+use App\Http\Requests\User\UserRequest;
 use Cartalyst\Sentinel\Checkpoints\NotActivatedException;
 use Cartalyst\Sentinel\Checkpoints\ThrottlingException;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
-use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -34,7 +31,7 @@ class AuthController extends Controller
                 }
             } else {
                 $err = "Username or Password incorrect!";
-                return redirect()->back()->with('err', $err)->withInput();
+                return redirect()->back()->with('errLogin', $err)->withInput();
             }
         }catch (NotActivatedException $e){
             $err = "Account not active!";
@@ -42,7 +39,7 @@ class AuthController extends Controller
             $delay = $e->getDelay();
             $err = "You has been blocked in {$delay} seconds!";
         }
-        return redirect()->back()->withInput()->with('err', $err);
+        return redirect()->back()->withInput()->with('errLogin', $err);
     }
 
     public function logout()
