@@ -9,7 +9,7 @@
             <li class="item bg-white h-fit w-fit py-1.5 px-4 rounded-3xl mr-2.5">Google</li>
             <li class="item bg-white h-fit w-fit py-1.5 px-4 rounded-3xl mr-2.5">Nano Technology</li>
             <li class="item bg-white h-fit w-fit py-1.5 px-4 rounded-3xl mr-2.5">Mental Health</li>
-            <li id="more-category" class="item h-full w-fit py-1.5 px-4 rounded-3xl"><img src="./img/icon/more.png"
+            <li id="more-category" class="item h-full w-fit py-1.5 px-4 rounded-3xl hover:cursor-pointer"><img src="./img/icon/more.png"
                                                                        class="w-4 mt-2"></li>
         </ul>
     </div>

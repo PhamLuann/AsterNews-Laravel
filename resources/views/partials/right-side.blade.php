@@ -3,7 +3,7 @@
     <div class="hidden lg:block bg-white rounded p-4 relative">
         <div class="flex mb-2">
             <p class="text-md">Ha Noi, Viet Nam</p>
-            <img src="./img/icon/GPS.png"
+            <img src="{{asset('./img/icon/GPS.png')}}"
                  class="w-5 h-5 hidden xl:block absolute right-7 hover:cursor-pointer">
         </div>
         <hr>
@@ -16,7 +16,7 @@
                     <p class="absolute text-2xl right-12px bottom-0">c</p>
                 </div>
             </div>
-            <img src="./img/icon/sun.png" class="w-14 absolute right-3">
+            <img src="{{asset('./img/icon/sun.png')}}" class="w-14 absolute right-3">
         </div>
         <div class="flex mt-4 text-sm">
             <p class="hover:cursor-pointer">Celsius</p>
@@ -26,7 +26,7 @@
     <!-- end location -->
     <div class="hidden lg:block bg-white rounded p-4 mt-4">
         <div class="flex">
-            <img src="./img/icon/feather.png" class="w-6">
+            <img src="{{asset('./img/icon/feather.png')}}" class="w-6">
             <p class="ml-4">Become a Story Writer</p>
         </div>
         <div class="flex mt-3">
@@ -38,16 +38,16 @@
     <!-- quick byte -->
     <div class="hidden lg:block bg-white rounded p-4 mt-4 relative">
         <div class="flex items-center mb-2">
-            <img src="./img/icon/file-text.png" alt="file text" class="w-5 h-5 mr-2">
+            <img src="{{asset('./img/icon/file-text.png')}}" alt="file text" class="w-5 h-5 mr-2">
             <p class="text-xs">Quick Bytes</p>
             <div class="flex absolute right-3">
                 <div
                     class="w-6 h-6 bg-skyblue opacity-20 rounded-full flex items-center justify-center hover:cursor-pointer">
                     <img
-                        src="./img/icon/previous.png" alt="previous" class="h-2 w-1"></div>
+                        src="{{asset('./img/icon/previous.png')}}" alt="previous" class="h-2 w-1"></div>
                 <div class="w-6 h-6 bg-skyblue rounded-full flex items-center justify-center hover:cursor-pointer ml-2">
                     <img
-                        src="./img/icon/next.png" alt="previous" class="h-2 w-1"></div>
+                        src="{{asset('./img/icon/next.png')}}" alt="previous" class="h-2 w-1"></div>
             </div>
         </div>
         <hr>
@@ -65,17 +65,17 @@
         </div>
         <ul class="flex items-center justify-center">
             <li class="w-1 h-1 hover:w-1.5 hover:h-1.5 hover:cursor-pointer mr-2"><img
-                    src="./img/icon/choose-icon.png" alt="choose icon" class="w-full h-full"></li>
+                    src="{{asset('./img/icon/choose-icon.png')}}" alt="choose icon" class="w-full h-full"></li>
             <li class="w-0.5 h-0.5 hover:w-1 hover:h-1 hover:cursor-pointer opacity-40 hover:opacity-100 mr-2">
-                <img src="./img/icon/choose-icon.png" alt="choose icon" class="w-full h-full"></li>
+                <img src="{{asset('./img/icon/choose-icon.png')}}" alt="choose icon" class="w-full h-full"></li>
             <li class="w-0.5 h-0.5 hover:w-1 hover:h-1 hover:cursor-pointer opacity-40 hover:opacity-100 mr-2">
-                <img src="./img/icon/choose-icon.png" alt="choose icon" class="w-full h-full"></li>
+                <img src="{{asset('./img/icon/choose-icon.png')}}" alt="choose icon" class="w-full h-full"></li>
             <li class="w-0.5 h-0.5 hover:w-1 hover:h-1 hover:cursor-pointer opacity-40 hover:opacity-100 mr-2">
-                <img src="./img/icon/choose-icon.png" alt="choose icon" class="w-full h-full"></li>
+                <img src="{{asset('./img/icon/choose-icon.png')}}" alt="choose icon" class="w-full h-full"></li>
             <li class="w-0.5 h-0.5 hover:w-1 hover:h-1 hover:cursor-pointer opacity-40 hover:opacity-100 mr-2">
-                <img src="./img/icon/choose-icon.png" alt="choose icon" class="w-full h-full"></li>
+                <img src="{{asset('./img/icon/choose-icon.png')}}" alt="choose icon" class="w-full h-full"></li>
             <li class="w-0.5 h-0.5 hover:w-1 hover:h-1 hover:cursor-pointer opacity-40 hover:opacity-100 mr-2">
-                <img src="./img/icon/choose-icon.png" alt="choose icon" class="w-full h-full"></li>
+                <img src="{{asset('./img/icon/choose-icon.png')}}" alt="choose icon" class="w-full h-full"></li>
         </ul>
     </div>
     <!-- Subscribe -->

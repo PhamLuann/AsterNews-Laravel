@@ -1,0 +1,30 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+session_start();
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Http\Request;
+
+class AdminController extends Controller
+{
+    //
+    public function index(){
+        $users = User::select([
+            'users.id',
+            'users.name',
+            'users.email',
+            'users.createBy',
+            'users.updateBy',
+            'users.last_login',
+            'users.created_at',
+            'users.updated_at',
+            'roles.name AS role',
+        ])
+            ->join('role_users as ru', 'ru.user_id', 'users.id')
+            ->join('roles', 'roles.id', 'ru.role_id')
+            ->orderBy('id', 'desc')
+            ->paginate(30);
+        return view('admin.index', compact('users'));
+    }
+}

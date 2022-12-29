@@ -15,16 +15,31 @@
         <p class="text-primary font-bold text-[40px] hidden md:block">Aster News</p>
     </div>
     <div>
-        <form action="" class="">
-            <input type="text" placeholder="User name" name="username"
+        @include('partials.__alert')
+        <form action="{{route('postLogin')}}" method="post" class="">
+            @csrf
+            <input type="text" placeholder="Email" name="email" value="{{old('email')}}"
                    class="block mt-8 px-6 w-64 md:w-535 h-16 rounded-lg border border-black focus:outline-none focus:border-sky-700 focus:ring-sky-500 focus:ring-2">
-            <input type="password" placeholder="Password" name="password"
+            @error('email')
+            <p class="text-red-600">
+                {{ $message }}
+            </p>
+            @enderror
+            <input type="password" placeholder="Password" name="password" value="{{old('password')}}"
                    class="block mt-8 px-6 w-64 md:w-535 h-16 rounded-lg border border-black focus:outline-none focus:border-sky-700 focus:ring-sky-500 focus:ring-2">
+            @error('password')
+            <p class="text-red-600">
+                {{ $message }}
+            </p>
+            @enderror
+            @if(session('errLogin'))
+                <p class="mt-3 text-red-700">{{session('errLogin')}}</p>
+            @endif
             <div class="w-64 md:w-535 mt-6 h-fit flex justify-between">
                 <div onclick="check()" class="flex items-center hover:cursor-pointer relative">
                     <div class="w-4 h-4 bg-white rounded border border-black"></div>
                     <p class="text-xs ml-2.5">Remember me</p>
-                    <i id="remember"  class="absolute hidden">
+                    <i id="remember" class="absolute hidden">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                              class="bi bi-check" viewBox="0 0 16 16">
                             <path
@@ -32,15 +47,15 @@
                         </svg>
                     </i>
                 </div>
-                <a class="text-xs text-skyblue" href="">Forgot password?</a>
+                <a class="text-xs text-skyblue" href="{{route('password.forgot')}}">Forgot password?</a>
             </div>
-            <button
+            <button type="submit"
                 class="mt-7 text-2xl font-bold w-64 md:w-535 py-4 bg-skyblue rounded-lg drop-shadow-xl shadow-black hover:opacity-80">
                 Login
             </button>
         </form>
         <div class="flex items-center mt-4 w-64 md:w-535 justify-center">
-            <a href="{{route('register')}}" class="text-skyblue font-bold">Register</a>
+            <a href="{{route('register.form')}}" class="text-skyblue font-bold">Register</a>
             <p class="ml-1">or Sign in with</p>
             <a href=""><img src="{{asset('./img/icon/facebook.png')}}" alt="facebook" class="w-5 mx-3.5"></a>
             <a href=""><img src="{{asset('./img/icon/google.png')}}" alt="google" class="w-5"></a>
@@ -48,7 +63,7 @@
     </div>
 </div>
 <script>
-    function check(){
+    function check() {
         document.getElementById('remember').classList.toggle('hidden');
     }
 </script>
