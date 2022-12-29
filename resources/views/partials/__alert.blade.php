@@ -5,7 +5,7 @@
     <script>
         setTimeout(function (){
             document.getElementById('alert').classList.add('hidden');
-        }, 1000);
+        }, 1500);
     </script>
 @endif
 
@@ -16,6 +16,6 @@
     <script>
         setTimeout(function (){
             document.getElementById('alert').classList.add('hidden');
-        }, 1000);
+        }, 1500);
     </script>
 @endif

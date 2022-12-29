@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\AuthController;
 use \App\Http\Controllers\User\RegisterController;
+use \App\Http\Controllers\User\ResetPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,4 +25,11 @@ Route::controller(RegisterController::class)->name('register.')->group(function 
     Route::get('/register', 'register')->name('form');
     Route::post('/register', 'processRegister')->name('')->name('process');
     Route::get('/active/{userId}/{code}', 'activeAccount')->name('active');
+});
+
+Route::prefix('password')->controller(ResetPasswordController::class)->name('password.')->group(function (){
+   Route::get('/forgot', 'forgotPassword')->name('forgot');
+   Route::post('/code', 'sendCode')->name('sendcode');
+   Route::get('/reset/{userId}/{code}', 'resetPassword')->name('reset');
+   Route::post('/reset', 'processReset')->name('reset.process');
 });
