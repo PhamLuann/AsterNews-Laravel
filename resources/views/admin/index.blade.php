@@ -38,15 +38,19 @@
                         <td class="border text-center">{{$user['created_at']}}</td>
                         <td class="border text-center">{{$user['updated_at']}}</td>
                         <td class="flex justify-center">
-                            <form action="{{route('admin.delete')}}" method="post">
-                                @csrf
-                                @method('DELETE')
-                                <input type="text" value="{{$user['id']}}" name="id" hidden="">
-                                <button type="submit" class="px-3 py-1 bg-red-600 rounded-md">Delete</button>
-                            </form>
-                            <form action="{{route('admin.update', [$user['id']])}}" method="get">
-                                <button type="submit" class="px-3 py-1 bg-yellow-300 rounded-md ml-2">Update</button>
-                            </form>
+                            @if($user['id'] == $admin['id'])
+
+                            @else
+                                <form action="{{route('admin.delete')}}" method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <input type="text" value="{{$user['id']}}" name="id" hidden="">
+                                    <button type="submit" class="px-3 py-1 bg-red-600 rounded-md">Delete</button>
+                                </form>
+                                <form action="{{route('admin.update', [$user['id']])}}" method="get">
+                                    <button type="submit" class="px-3 py-1 bg-yellow-300 rounded-md ml-2">Update</button>
+                                </form>
+                            @endif
                         </td>
                     </tr>
                 @empty

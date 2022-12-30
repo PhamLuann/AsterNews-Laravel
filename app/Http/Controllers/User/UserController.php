@@ -30,6 +30,7 @@ class UserController extends Controller
             'name' => $request->get('name'),
         ];
         if(Sentinel::update($user, $input)){
+            setcookie('name', $user['name'], time()+86400, '/');
             return redirect()->route('user.profile')->with('msg', 'Update Success!');
         }
         return redirect()->back()->withInput()->with('err', 'Cannot Update!');
