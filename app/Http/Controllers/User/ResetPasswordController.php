@@ -63,6 +63,21 @@ class ResetPasswordController extends Controller
     public function processReset(ResetPasswordRequest $request){
         $userId = $request->get('userId');
         $code = $request->get('code');
+        DB::beginTransaction();
         $user = Sentinel::findUserById($userId);
+        if(!$user){
+            Session::flash('err', 'Can not find your account!');
+            DB::rollBack();
+            return redirect()->route('register');
+        }
+        $reset = Reminder::complete($user, $code, $request->get('password'));
+        if(!$reset){
+            DB::rollBack();
+            Session::flash('err', 'The verification code has expired');
+            return redirect()->back()->withInput();
+        }
+        DB::commit();
+        Session::flash('msg', 'Reset password success!');
+        return redirect()->route('login');
     }
 }
