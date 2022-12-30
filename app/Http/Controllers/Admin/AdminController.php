@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 session_start();
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
     //
     public function index(){
+        $admin = Sentinel::getUser();
         $users = User::select([
             'users.id',
             'users.name',
@@ -25,6 +27,6 @@ class AdminController extends Controller
             ->join('roles', 'roles.id', 'ru.role_id')
             ->orderBy('id', 'desc')
             ->paginate(30);
-        return view('admin.index', compact('users'));
+        return view('admin.index', compact('users', 'admin'));
     }
 }

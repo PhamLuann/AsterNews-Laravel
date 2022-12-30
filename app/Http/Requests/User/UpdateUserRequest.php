@@ -24,13 +24,14 @@ class UpdateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required'],
+            'name' => 'required',
         ];
     }
+
     public function messages()
     {
         return [
-            'name' => 'Name is require input!'
+            'name.required' => 'Name is input required!',
         ];
     }
 }

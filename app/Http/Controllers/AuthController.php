@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-session_start();
-
 use App\Http\Requests\User\UserRequest;
 use Cartalyst\Sentinel\Checkpoints\NotActivatedException;
 use Cartalyst\Sentinel\Checkpoints\ThrottlingException;
@@ -22,8 +20,7 @@ class AuthController extends Controller
         try {
             if (Sentinel::authenticate($request->all())) {
                 $user = Sentinel::getUser();
-                $_SESSION['name'] = $user['name'];
-                $_SESSION['uID'] = $user['id'];
+                setcookie('name', $user['name'], time()+86400, '/');
                 if($user->inRole('admin')){
                     return redirect(route('admin.home'));
                 }else{
@@ -44,7 +41,7 @@ class AuthController extends Controller
 
     public function logout()
     {
-        session_destroy();
+        setcookie('name', "", time()-86400, '/');
         Sentinel::logout();
         return redirect(route('login'));
     }

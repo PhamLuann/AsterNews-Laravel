@@ -7,13 +7,13 @@
     </div>
     <div class="flex items-center relative">
         <img src="{{asset('./img/icon/person-icon.png')}}" alt="profile" class="w-6">
-        @if(isset($_SESSION['name']))
-            <a href="" class="mx-4">{{$_SESSION['name']}}</a>
+        @if(isset($_COOKIE['name']))
+            <a href="" class="mx-4">{{$_COOKIE['name']}}</a>
             <img id="view-profile" src="{{asset('./img/icon/down-icon.png')}}" alt="" class="w-4 hover:cursor-pointer">
         @endif
         <div class="hidden" id="profile">
             <ul class="absolute top-10 right-0 bg-gray-500 p-4 rounded z-10">
-                <li class=""><a href="" class="text-black">Profile</a></li>
+                <li class=""><a href="{{route('user.profile')}}" class="text-black">Profile</a></li>
                 <li class="mt-4"><a href="{{route('logout')}}" class="text-black">Logout</a></li>
             </ul>
         </div>

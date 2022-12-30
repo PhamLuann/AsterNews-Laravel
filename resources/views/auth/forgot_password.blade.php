@@ -16,10 +16,11 @@
     </div>
     <div>
         @include('partials.__alert')
-        <form action="{{route('password.sendcode')}}" method="post">
+        <form action="{{route('password.sendcode')}}" method="post" class="mt-8">
             @csrf
-            <input type="text" placeholder="Email" name="email" value="{{old('email')}}"
-                   class="block mt-8 px-6 w-64 md:w-535 h-16 rounded-lg border border-black focus:outline-none focus:border-sky-700 focus:ring-sky-500 focus:ring-2">
+            <label class="opacity-60" for="email">Email</label>
+            <input type="text" placeholder="Email" id="email" name="email" value="{{old('email')}}"
+                   class="block px-6 w-64 md:w-535 h-16 rounded-lg border border-black focus:outline-none focus:border-sky-700 focus:ring-sky-500 focus:ring-2">
             @error('email')
             <p class="text-red-600">
                 {{ $message }}

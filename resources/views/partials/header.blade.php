@@ -20,13 +20,13 @@
     <!-- user -->
     <div class="w-1/4 mr-4">
         <div id="view-profile" class="h-full flex items-center float-right">
-            @if(isset($_SESSION['name']))
+            @if(isset($_COOKIE['name']))
             <img src="{{asset('./img/icon/person-icon.png')}}" class="w-6">
-                <a class="text-sm ml-4 lg:mr-9" href="">{{$_SESSION['name']}}</a>
+                <a class="text-sm ml-4 lg:mr-9" href="">{{$_COOKIE['name']}}</a>
             <img src="{{asset('./img/icon/down-icon.png')}}" class="hidden lg:block w-4 hover:cursor-pointer">
             <div class="hidden" id="profile">
                 <ul class="absolute top-10 right-4 bg-gray-500 p-4 rounded z-10">
-                    <li class=""><a href="{{route('user.update', [$_SESSION['uID']])}}" class="text-black">Profile</a></li>
+                    <li class=""><a href="{{route('user.profile')}}" class="text-black">Profile</a></li>
                     <li class="mt-4"><a href="{{route('logout')}}" class="text-black">Logout</a></li>
                 </ul>
             </div>
