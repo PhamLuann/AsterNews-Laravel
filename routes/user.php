@@ -24,6 +24,9 @@ Route::prefix('admin')->controller(UserController::class)->name('admin.')->group
 });
 
 Route::prefix('user')->controller(Users::class)->name('user.')->group(function (){
-    Route::get('update/{id}', 'update')->name('update');
-    Route::post('/update', 'postUpdate')->name('postUpdate');
+    Route::get('/profile', 'profile')->name('profile');
+    Route::get('/changeName', 'changeName')->name('changeName');
+    Route::post('/changeName', 'doChangeName')->name('doChangeName');
+    Route::get('/changePassword', 'changePassword')->name('changePassword');
+    Route::post('/changePassword', 'doChangePassword')->name('doChangePassword');
 });
