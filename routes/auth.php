@@ -20,6 +20,12 @@ Route::controller(AuthController::class)->group(function () {
     Route::get('/login', 'login')->name('login');
     Route::post('/login', 'postLogin')->name('postLogin');
     Route::get('/logout', 'logout')->name('logout');
+    Route::prefix('auth')->name('auth.')->group(function (){
+       Route::get('/facebook/redirect', 'redirectFacebook')->name('facebook');
+       Route::get('/facebook/callback', 'handleAuthFacebook');
+       Route::get('/google/redirect', 'redirectGoogle')->name('google');
+       Route::get('/google/callback', 'handleAuthGoogle');
+    });
 });
 Route::controller(RegisterController::class)->name('register.')->group(function (){
     Route::get('/register', 'register')->name('form');
