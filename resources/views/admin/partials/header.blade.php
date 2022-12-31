@@ -5,11 +5,11 @@
             <p class="text-lg text-primary font-bold m-0">Aster News</p>
         </a>
     </div>
-    <div class="flex items-center relative">
+    <div class="flex items-center relative hover:cursor-pointer">
         <img src="{{asset('./img/icon/person-icon.png')}}" alt="profile" class="w-6">
         @if(isset($_COOKIE['name']))
-            <a href="" class="mx-4">{{$_COOKIE['name']}}</a>
-            <img id="view-profile" src="{{asset('./img/icon/down-icon.png')}}" alt="" class="w-4 hover:cursor-pointer">
+            <p class="mx-4">{{$_COOKIE['name']}}</p>
+            <img id="view-profile" src="{{asset('./img/icon/down-icon.png')}}" alt="" class="w-4">
         @endif
         <div class="hidden" id="profile">
             <ul class="absolute top-10 right-0 bg-gray-500 p-4 rounded z-10">

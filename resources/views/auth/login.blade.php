@@ -57,8 +57,8 @@
         <div class="flex items-center mt-4 w-64 md:w-535 justify-center">
             <a href="{{route('register.form')}}" class="text-skyblue font-bold">Register</a>
             <p class="ml-1">or Sign in with</p>
-            <a href=""><img src="{{asset('./img/icon/facebook.png')}}" alt="facebook" class="w-5 mx-3.5"></a>
-            <a href=""><img src="{{asset('./img/icon/google.png')}}" alt="google" class="w-5"></a>
+            <a href="{{route('auth.facebook')}}"><img src="{{asset('./img/icon/facebook.png')}}" alt="facebook" class="w-5 mx-3.5"></a>
+            <a href="{{route('auth.google')}}"><img src="{{asset('./img/icon/google.png')}}" alt="google" class="w-5"></a>
         </div>
     </div>
 </div>
