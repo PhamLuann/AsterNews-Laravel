@@ -26,8 +26,10 @@ class UserController extends Controller
 
     public function doChangeName(UpdateUserRequest $request){
         $user = Sentinel::getUser();
+        $name = $request->get('name');
         $input = [
-            'name' => $request->get('name'),
+            'name' => $name,
+            'updateBy' => $name,
         ];
         if(Sentinel::update($user, $input)){
             setcookie('name', $user['name'], time()+86400, '/');
@@ -46,6 +48,7 @@ class UserController extends Controller
         $credentials = [
             'email' => $user->email,
             'password' => $request->get('current-password'),
+            'updateBy' => $_COOKIE['name'],
         ];
         if(Sentinel::validateCredentials($user, $credentials)){
             $credentials['password'] = $request->get('new-password');

@@ -63,7 +63,7 @@ class AuthController extends Controller
             if($existed){
                 Sentinel::authenticate($existed);
                 $logged = Sentinel::getUser();
-                setcookie('name', $user['name'], time()+86400, '/');
+                setcookie('name', $existed['name'], time()+86400, '/');
                 if($logged->inRole('admin')){
                     return redirect(route('admin.home'));
                 }else{

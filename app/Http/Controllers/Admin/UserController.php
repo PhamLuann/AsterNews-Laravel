@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-session_start();
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Email;
@@ -21,7 +20,7 @@ class UserController extends Controller
         return view('admin.create-user');
     }
     public function postCreate(RegisterRequest $request){
-        $request->offsetSet('createBy', $_SESSION['name']);
+        $request->offsetSet('createBy', $_COOKIE['name']);
         if(Email::checkEmail($request->get('email'))){
             return redirect()->back()->withInput()->with('emailErr', 'Email is already exist!');
         }
@@ -43,7 +42,7 @@ class UserController extends Controller
     public function postUpdate(UpdateUserRequest $request){
         $input = [
             'name' => $request->get('name'),
-            'updateBy' => $_SESSION['name'],
+            'updateBy' => $_COOKIE['name'],
         ];
         if($request->get('password') != null){
             $input['password'] = $request->get('password');
