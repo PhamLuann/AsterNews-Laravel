@@ -64,7 +64,7 @@ class RegisterController extends Controller
         } else {
             Activation::removeExpired();
             Session::flash('err', 'Active failed!');
-            return redirect()->route('register');
+            return redirect()->route('register.form');
         }
     }
 }

@@ -28,6 +28,7 @@ class RegisterRequest extends FormRequest
             'name' => ['required'],
             'email' => ['required'],
             'password' => ['required', 'min:4'],
+            'password-confirm' => ['required', 'min:4', 'same:password'],
         ];
     }
     public function messages()
@@ -36,7 +37,10 @@ class RegisterRequest extends FormRequest
             'email.required' => 'Email is require input!',
             'name.required' => 'Name is require input!',
             'password.required' => 'Password is require input!',
-            'password.min' => 'Password must >= 4 character!'
+            'password.min' => 'Password must >= 4 character!',
+            'password-confirm.required' => 'Password is require input!',
+            'password-confirm.min' => 'Password must >= 4 character!',
+            'password-confirm.same' => 'Password not match!',
         ];
     }
 }
