@@ -20,6 +20,6 @@ class CheckAdmin
         if(Sentinel::getUser()->inRole('admin')){
             return $next($request);
         }
-        return redirect(route('login'))->with('err', 'Please Sigin with Admin account!');
+        return redirect()->back()->with('err', 'Please Sigin with Admin account!');
     }
 }
