@@ -13,7 +13,43 @@ use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
-    //
+    public function getRouteForRole(EloquentUser $user)
+    {
+        setcookie('name', $user['name'], time() + 86400, '/');
+        if ($user->inRole('admin')) {
+            return 'admin.home';
+        } else {
+            return 'home';
+        }
+    }
+
+    private function handleDriver($driver){
+        try {
+            $googleUser = Socialite::driver($driver)->user();
+            $credentials = [
+                'name' => $googleUser->name,
+                'password' => $googleUser->email,
+                'email' => $googleUser->email,
+                'auth_id' => $googleUser->id,
+                'createBy' => $driver,
+            ];
+            $existed = EloquentUser::where('auth_id', $credentials['auth_id'])->where('createBy', $credentials['createBy'])->first();
+            if ($existed) {
+                Sentinel::authenticate($existed);
+                return $this->getRouteForRole($existed);
+            } else {
+                $register = Sentinel::registerAndActivate($credentials);
+                $role = Sentinel::findRoleBySlug('user');
+                $role->users()->attach($register);
+                $logged = Sentinel::authenticate($register);
+                return $this->getRouteForRole($logged);
+            }
+        } catch (\Exception $exception) {
+            Session::flash('err', $exception->getMessage());
+            return 'login';
+        }
+    }
+
     public function login()
     {
         return view('auth.login');
@@ -24,12 +60,7 @@ class AuthController extends Controller
         try {
             if (Sentinel::authenticate($request->all())) {
                 $user = Sentinel::getUser();
-                setcookie('name', $user['name'], time() + 86400, '/');
-                if ($user->inRole('admin')) {
-                    return redirect(route('admin.home'));
-                } else {
-                    return redirect(route('home'));
-                }
+                return redirect()->route($this->getRouteForRole($user));
             } else {
                 $err = "Username or Password incorrect!";
                 return redirect()->back()->with('errLogin', $err)->withInput();
@@ -50,42 +81,7 @@ class AuthController extends Controller
 
     public function handleAuthFacebook()
     {
-        try {
-            $facebookUser = Socialite::driver('facebook')->user();
-            $credentials = [
-                'name' => $facebookUser->name,
-                'password' => $facebookUser->email,
-                'email' => $facebookUser->email,
-                'auth_id' => $facebookUser->id,
-                'createBy' => 'Facebook',
-            ];
-            $existed = EloquentUser::where('auth_id', $credentials['auth_id'])->where('createBy', $credentials['createBy'])->first();
-            if ($existed){
-                $logged = Sentinel::authenticate($credentials);
-                setcookie('name', $logged['name'], time()+86400, '/');
-                if ($logged->inRole('admin')){
-                    return redirect()->route('admin.home');
-                }else{
-                    return redirect()->route('home');
-                }
-            }else{
-                //for add new user
-                $register = Sentinel::registerAndActivate($credentials);
-                $role = Sentinel::findRoleBySlug('user');
-                $role->users()->attach($register);
-                //for login
-                Sentinel::authenticate($register);
-                setcookie('name', $register['name'], time()+86400, '/');
-                if ($register->inRole('admin')){
-                    return redirect()->route('admin.home');
-                }else{
-                    return redirect()->route('home');
-                }
-            }
-        } catch (\Exception $exception) {
-            Session::flash('err', $exception->getMessage());
-            return redirect()->route('login');
-        }
+        return redirect()->route($this->handleDriver('facebook'));
     }
 
     public function redirectGoogle()
@@ -95,42 +91,8 @@ class AuthController extends Controller
 
     public function handleAuthGoogle()
     {
-        try {
-            $googleUser = Socialite::driver('google')->user();
-            $credentials = [
-                'name' =>$googleUser->name,
-                'password' => $googleUser->email,
-                'email' => $googleUser->email,
-                'auth_id' => $googleUser->id,
-                'createBy' => 'Google',
-            ];
-            $existed = EloquentUser::where('auth_id', $credentials['auth_id'])->where('createBy', $credentials['createBy'])->first();
-            if ($existed) {
-                Sentinel::authenticate($existed);
-                setcookie('name', $existed['name'], time() + 86400, '/');
-                if ($existed->inRole('admin')) {
-                    return redirect(route('admin.home'));
-                } else {
-                    return redirect(route('home'));
-                }
-            } else {
-                $register = Sentinel::registerAndActivate($credentials);
-                $role = Sentinel::findRoleBySlug('user');
-                $role->users()->attach($register);
-                Sentinel::authenticate($register);
-                setcookie('name', $register['name'], time() + 86400, '/');
-                if ($register->inRole('admin')) {
-                    return redirect(route('admin.home'));
-                } else {
-                    return redirect(route('home'));
-                }
-            }
-        } catch (\Exception $exception) {
-            Session::flash('err', $exception->getMessage());
-            return redirect()->route('login');
-        }
+        return redirect()->route($this->handleDriver('google'));
     }
-
     public function logout()
     {
         setcookie('name', "", time() - 86400, '/');
