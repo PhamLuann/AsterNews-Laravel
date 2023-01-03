@@ -25,5 +25,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Paginator::useTailwind();
+
+//        to use ngrok
+//        $this->app['request']->server->set('HTTPS', true);
     }
+
 }
