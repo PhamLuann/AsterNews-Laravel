@@ -8,8 +8,10 @@ use App\Orchid\Layouts\Role\RolePermissionLayout;
 use App\Orchid\Layouts\User\UserEditLayout;
 use App\Orchid\Layouts\User\UserPasswordLayout;
 use App\Orchid\Layouts\User\UserRoleLayout;
+use Cartalyst\Sentinel\Laravel\Facades\Activation;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Orchid\Access\UserSwitch;
@@ -20,6 +22,7 @@ use Orchid\Screen\Screen;
 use Orchid\Support\Color;
 use Orchid\Support\Facades\Layout;
 use Orchid\Support\Facades\Toast;
+use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 
 class UserEditScreen extends Screen
 {
@@ -83,12 +86,6 @@ class UserEditScreen extends Screen
     public function commandBar(): iterable
     {
         return [
-            Button::make(__('Impersonate user'))
-                ->icon('login')
-                ->confirm(__('You can revert to your original state by logging out.'))
-                ->method('loginAs')
-                ->canSee($this->user->exists && \request()->user()->id !== $this->user->id),
-
             Button::make(__('Remove'))
                 ->icon('trash')
                 ->confirm(__('Once the account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.'))
@@ -163,6 +160,7 @@ class UserEditScreen extends Screen
      */
     public function save(User $user, Request $request)
     {
+        DB::beginTransaction();
         $request->validate([
             'user.email' => [
                 'required',
@@ -185,7 +183,10 @@ class UserEditScreen extends Screen
             ->save();
 
         $user->replaceRoles($request->input('user.roles'));
+        $activation = Sentinel::findById($user->id);
+        Sentinel::activate($activation);
 
+        DB::commit();
         Toast::info(__('User was saved.'));
 
         return redirect()->route('platform.systems.users');

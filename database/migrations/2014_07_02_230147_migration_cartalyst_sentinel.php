@@ -67,20 +67,11 @@ class MigrationCartalystSentinel extends Migration
             $table->increments('id');
             $table->string('slug');
             $table->string('name');
-            $table->text('permissions')->nullable();
+            $table->jsonb('permissions')->nullable();
             $table->timestamps();
 
             $table->engine = 'InnoDB';
             $table->unique('slug');
-        });
-
-        Schema::create('role_users', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned();
-            $table->integer('role_id')->unsigned();
-            $table->nullableTimestamps();
-
-            $table->engine = 'InnoDB';
-            $table->primary(['user_id', 'role_id']);
         });
 
         Schema::create('throttle', function (Blueprint $table) {
@@ -104,6 +95,8 @@ class MigrationCartalystSentinel extends Migration
             $table->string('auth_id')->nullable();
             $table->string('updateBy')->nullable();
             $table->timestamps();
+            $table->jsonb('permissions')->nullable();
+            $table->rememberToken();
 
             $table->engine = 'InnoDB';
         });
@@ -120,7 +113,6 @@ class MigrationCartalystSentinel extends Migration
         Schema::drop('throttle');
         Schema::drop('persistences');
         Schema::drop('reminders');
-        Schema::drop('role_users');
         Schema::drop('roles');
         Schema::drop('users');
     }
