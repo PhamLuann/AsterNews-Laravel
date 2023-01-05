@@ -41,14 +41,14 @@ class PlatformProvider extends OrchidServiceProvider
 
             Menu::make(__('Post'))
                 ->icon('book-open')
-                ->route('platform.systems.users')
-                ->permission('platform.systems.users')
+                ->route('post.list')
+                ->permission('posts')
                 ->title(__('Posts')),
 
             Menu::make(__('Categories'))
                 ->icon('grid')
-                ->route('platform.systems.roles')
-                ->permission('platform.systems.roles'),
+                ->route('category.list')
+                ->permission('categories'),
         ];
     }
 
