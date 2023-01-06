@@ -166,6 +166,11 @@ class UserEditScreen extends Screen
      */
     public function save(User $user, Request $request)
     {
+        if(!$user->exists){
+            $user->createBy = auth()->user()->name;
+        }else{
+            $user->updateBy = auth()->user()->name;
+        }
         DB::beginTransaction();
         $request->validate([
             'user.email' => [

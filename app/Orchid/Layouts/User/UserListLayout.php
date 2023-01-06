@@ -30,13 +30,11 @@ class UserListLayout extends Table
             TD::make('name', __('Name'))
                 ->sort()
                 ->cantHide()
-                ->filter(Input::make())
                 ->render(fn (User $user) => new Persona($user->presenter())),
 
             TD::make('email', __('Email'))
                 ->sort()
                 ->cantHide()
-                ->filter(Input::make())
                 ->render(fn (User $user) => ModalToggle::make($user->email)
                     ->modal('asyncEditUserModal')
                     ->modalTitle($user->presenter()->title())
@@ -44,11 +42,16 @@ class UserListLayout extends Table
                     ->asyncParameters([
                         'user' => $user->id,
                     ])),
+            TD::make('createBy', __('Create by')),
+            TD::make('created_at', __('Created at'))
+                ->sort(),
+            TD::make('updateBy', __('Update by')),
 
             TD::make('updated_at', __('Last edit'))
                 ->sort()
                 ->render(fn (User $user) => $user->updated_at->toDateTimeString()),
-
+            TD::make('last_login', 'Last login')
+                ->sort(),
             TD::make(__('Actions'))
                 ->align(TD::ALIGN_CENTER)
                 ->width('100px')
