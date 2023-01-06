@@ -2,6 +2,7 @@
 
 namespace App\Orchid\Screens\Posts;
 
+use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Orchid\Screen\Actions\Button;
@@ -12,7 +13,6 @@ use Orchid\Screen\Fields\Relation;
 use Orchid\Screen\Fields\TextArea;
 use Orchid\Screen\Fields\Upload;
 use Orchid\Screen\Screen;
-use Orchid\Support\Facades\Alert;
 use Orchid\Support\Facades\Layout;
 use Orchid\Support\Facades\Toast;
 
@@ -81,6 +81,9 @@ class PostEditScreen extends Screen
                     ->title('Title')
                     ->placeholder('Title here'),
 
+                Relation::make('post.category_id')
+                    ->title('Select category')
+                    ->fromModel(Category::class, 'name'),
                 Cropper::make('post.hero')
                     ->title('Large post banner image')
                     ->width(1000)
@@ -104,8 +107,7 @@ class PostEditScreen extends Screen
     public function createOrUpdate(Post $post, Request $request)
     {
         $post->fill($request->get('post'));
-        $post->offsetSet('author_id', 1);
-
+        $post->offsetSet('author_id', auth()->user()->id);
         if ($post->save()) {
             $post->attachment()->syncWithoutDetaching(
                 $request->input('post.attachment', [])
