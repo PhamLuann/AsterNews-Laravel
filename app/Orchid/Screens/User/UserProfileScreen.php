@@ -29,7 +29,7 @@ class UserProfileScreen extends Screen
     public function query(Request $request): iterable
     {
         return [
-            'user' => $request->user(),
+            'user' => auth()->user(),
         ];
     }
 
@@ -71,7 +71,6 @@ class UserProfileScreen extends Screen
         return [
             Layout::block(UserEditLayout::class)
                 ->title(__('Profile Information'))
-                ->description(__("Update your account's profile information and email address."))
                 ->commands(
                     Button::make(__('Save'))
                         ->type(Color::DEFAULT())
@@ -81,7 +80,6 @@ class UserProfileScreen extends Screen
 
             Layout::block(ProfilePasswordLayout::class)
                 ->title(__('Update Password'))
-                ->description(__('Ensure your account is using a long, random password to stay secure.'))
                 ->commands(
                     Button::make(__('Update password'))
                         ->type(Color::DEFAULT())
@@ -100,11 +98,11 @@ class UserProfileScreen extends Screen
             'user.name'  => 'required|string',
             'user.email' => [
                 'required',
-                Rule::unique(User::class, 'email')->ignore($request->user()),
+                Rule::unique(User::class, 'email')->ignore(auth()->user()),
             ],
         ]);
 
-        $request->user()
+        auth()->user()
             ->fill($request->get('user'))
             ->save();
 
@@ -122,7 +120,7 @@ class UserProfileScreen extends Screen
             'password'     => 'required|confirmed',
         ]);
 
-        tap($request->user(), function ($user) use ($request) {
+        tap(auth()->user(), function ($user) use ($request) {
             $user->password = Hash::make($request->get('password'));
         })->save();
 
