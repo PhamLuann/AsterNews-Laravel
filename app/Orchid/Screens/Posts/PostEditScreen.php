@@ -2,6 +2,7 @@
 
 namespace App\Orchid\Screens\Posts;
 
+use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Orchid\Screen\Actions\Button;
@@ -80,6 +81,9 @@ class PostEditScreen extends Screen
                 Input::make('post.title')
                     ->title('Title')
                     ->placeholder('Title here'),
+                Relation::make('post.category_id')
+                    ->title('Category')
+                    ->fromModel(Category::class, 'name'),
 
                 Cropper::make('post.hero')
                     ->title('Large post banner image')

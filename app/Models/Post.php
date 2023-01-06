@@ -17,6 +17,7 @@ class Post extends Model
         'description',
         'body',
         'author',
+        'category_id',
         'hero',
     ];
 }
