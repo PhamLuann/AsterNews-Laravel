@@ -7,6 +7,7 @@ namespace App\Orchid\Screens\User;
 use App\Orchid\Layouts\User\UserEditLayout;
 use App\Orchid\Layouts\User\UserFiltersLayout;
 use App\Orchid\Layouts\User\UserListLayout;
+use App\Orchid\Presenters\UserPresenter;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Orchid\Platform\Models\User;
