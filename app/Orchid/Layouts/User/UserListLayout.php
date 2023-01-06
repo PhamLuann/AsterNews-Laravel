@@ -29,13 +29,14 @@ class UserListLayout extends Table
         return [
             TD::make('name', __('Name'))
                 ->sort()
+                ->filter(Input::make())
                 ->cantHide()
-                ->render(fn (User $user) => new Persona($user->presenter())),
+                ->render(fn(User $user) => new Persona($user->presenter())),
 
             TD::make('email', __('Email'))
                 ->sort()
                 ->cantHide()
-                ->render(fn (User $user) => ModalToggle::make($user->email)
+                ->render(fn(User $user) => ModalToggle::make($user->email)
                     ->modal('asyncEditUserModal')
                     ->modalTitle($user->presenter()->title())
                     ->method('saveUser')
@@ -44,18 +45,19 @@ class UserListLayout extends Table
                     ])),
             TD::make('createBy', __('Create by')),
             TD::make('created_at', __('Created at'))
-                ->sort(),
+                ->sort()
+                ->render(fn(User $user) => $user->created_at->toDateTimeString()),
             TD::make('updateBy', __('Update by')),
 
             TD::make('updated_at', __('Last edit'))
                 ->sort()
-                ->render(fn (User $user) => $user->updated_at->toDateTimeString()),
+                ->render(fn(User $user) => $user->updated_at->toDateTimeString()),
             TD::make('last_login', 'Last login')
                 ->sort(),
             TD::make(__('Actions'))
                 ->align(TD::ALIGN_CENTER)
                 ->width('100px')
-                ->render(fn (User $user) => DropDown::make()
+                ->render(fn(User $user) => DropDown::make()
                     ->icon('options-vertical')
                     ->list([
 
