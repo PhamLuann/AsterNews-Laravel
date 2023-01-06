@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Part of the Sentinel package.
+ * Part of the SentinelEloquentUser package.
  *
  * NOTICE OF LICENSE
  *
@@ -10,7 +10,7 @@
  * This source file is subject to the 3-clause BSD License that is
  * bundled with this package in the LICENSE file.
  *
- * @package    Sentinel
+ * @package    SentinelEloquentUser
  * @version    6.0.0
  * @author     Cartalyst LLC
  * @license    BSD License (3-clause)
