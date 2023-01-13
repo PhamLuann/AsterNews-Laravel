@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Laravelista\Comments\Commenter;
 use Orchid\Platform\Models\User as Authenticatable;
 
 class User extends Authenticatable
 {
+    use Commenter;
     /**
      * The attributes that are mass assignable.
      *
