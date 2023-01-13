@@ -8,6 +8,7 @@ use Cartalyst\Sentinel\Checkpoints\NotActivatedException;
 use Cartalyst\Sentinel\Checkpoints\ThrottlingException;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Cartalyst\Sentinel\Users\EloquentUser;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -57,21 +58,20 @@ class AuthController extends Controller
 
     public function postLogin(UserRequest $request)
     {
-        try {
-            if (Sentinel::authenticate($request->all())) {
-                $user = Sentinel::getUser();
-                return redirect()->route($this->getRouteForRole($user));
-            } else {
-                $err = "Username or Password incorrect!";
-                return redirect()->back()->with('errLogin', $err)->withInput();
-            }
-        } catch (NotActivatedException $e) {
-            $err = "Account not active!";
-        } catch (ThrottlingException $e) {
-            $delay = $e->getDelay();
-            $err = "You has been blocked in {$delay} seconds!";
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+
+        if (Auth::attempt($credentials)) {
+            setcookie('name', $credentials['email'], time() + 86400, '/');
+            $request->session()->regenerate();
+            return redirect()->intended('post');
         }
-        return redirect()->back()->withInput()->with('errLogin', $err);
+
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ])->onlyInput('email');
     }
 
     public function redirectFacebook()
