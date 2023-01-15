@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./resources/**/*.{blade.php,js}", "./vendor/phamluann/**/*.php"],
+  content: [
+      "./resources/**/*.{blade.php,js}",
+      "./vendor/phamluann/**/*.php"
+  ],
   theme: {
       extend: {
           screens: {
