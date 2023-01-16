@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Laravelista\Comments\Commenter;
 use Orchid\Platform\Models\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Commenter;
     /**
@@ -68,4 +69,8 @@ class User extends Authenticatable
         'updated_at',
         'created_at',
     ];
+
+    public function activation(){
+        return $this->hasOne(Activation::class);
+    }
 }

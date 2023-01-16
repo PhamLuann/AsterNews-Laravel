@@ -16,8 +16,15 @@
     </div>
     <div>
         @include('partials.__alert')
-        <form action="{{route('password.reset.process')}}" method="post">
+        <form action="{{route('password.update')}}" method="post">
             @csrf
+            <input type="email" placeholder="Email" name="email"
+                   class="block mt-8 px-6 w-64 md:w-535 h-16 rounded-lg border border-black focus:outline-none focus:border-sky-700 focus:ring-sky-500 focus:ring-2">
+            @error('email')
+            <p class="text-red-600">
+                {{ $message }}
+            </p>
+            @enderror
             <input type="password" placeholder="Password" name="password"
                    class="block mt-8 px-6 w-64 md:w-535 h-16 rounded-lg border border-black focus:outline-none focus:border-sky-700 focus:ring-sky-500 focus:ring-2">
             @error('password')
@@ -25,18 +32,17 @@
                 {{ $message }}
             </p>
             @enderror
-            <input type="password" placeholder="Confirm Password" name="password_confirm"
+            <input type="password" placeholder="Confirm Password" name="password_confirmation"
                    class="block mt-8 px-6 w-64 md:w-535 h-16 rounded-lg border border-black focus:outline-none focus:border-sky-700 focus:ring-sky-500 focus:ring-2">
-            @error('password_confirm')
+            @error('password_confirmation')
             <p class="text-red-600">
                 {{ $message }}
             </p>
             @enderror
+            <input type="text" value="{{$token}}" name="token" hidden>
             @if(session('errLogin'))
                 <p class="mt-3 text-red-700">{{session('errLogin')}}</p>
             @endif
-            <input type="text" value="{{$userId}}" name="userId" hidden>
-            <input type="text" value="{{$code}}" name="code" hidden>
             <button type="submit"
                     class="mt-7 text-2xl font-bold w- md:w-535 py-4 bg-skyblue rounded-lg drop-shadow-xl shadow-black hover:opacity-80">
                 Change

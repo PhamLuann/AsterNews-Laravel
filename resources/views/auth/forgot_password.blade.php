@@ -16,7 +16,7 @@
     </div>
     <div>
         @include('partials.__alert')
-        <form action="{{route('password.sendcode')}}" method="post" class="mt-8">
+        <form action="{{route('password.email')}}" method="post" class="mt-8">
             @csrf
             <label class="opacity-60" for="email">Email</label>
             <input type="text" placeholder="Email" id="email" name="email" value="{{old('email')}}"

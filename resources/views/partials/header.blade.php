@@ -20,9 +20,9 @@
     <!-- user -->
     <div class="w-1/4 mr-4">
         <div id="view-profile" class="h-full flex items-center float-right">
-            @if(isset($_COOKIE['name']))
+            @auth()
                 <img src="{{asset('./img/icon/person-icon.png')}}" class="w-6">
-                <p class="text-sm ml-4 lg:mr-9 hover:cursor-pointer">{{$_COOKIE['name']}}</p>
+                <p class="text-sm ml-4 lg:mr-9 hover:cursor-pointer">{{auth()->user()->name}}</p>
                 <img src="{{asset('./img/icon/down-icon.png')}}" class="hidden lg:block w-4 hover:cursor-pointer">
                 <div class="hidden" id="profile">
                     <ul class="absolute top-10 right-4 bg-gray-500 p-4 rounded z-10">
@@ -32,7 +32,7 @@
                 </div>
             @else
                 <a class="text-sm ml-4" href="{{route('login')}}">Login</a>
-            @endif
+            @endauth
         </div>
     </div>
     <!-- end user -->
