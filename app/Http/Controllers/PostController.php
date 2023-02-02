@@ -11,7 +11,7 @@ class PostController extends Controller
         return view('posts.all-post');
     }
     public function show(){
-        $post = Post::find(1);
+        $post = Post::find(6);
         return view('posts.news-feed', compact('post'));
     }
 }
