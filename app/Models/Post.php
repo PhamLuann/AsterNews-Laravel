@@ -15,10 +15,19 @@ class Post extends Model
 
     protected $fillable = [
         'title',
+        'slug',
         'description',
         'body',
         'author',
         'hero',
         'category_id',
     ];
+
+    public function author(){
+        return $this->hasOne(User::class);
+    }
+
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
 }
