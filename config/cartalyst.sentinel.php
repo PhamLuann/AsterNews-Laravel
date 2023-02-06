@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Part of the Sentinel package.
+ * Part of the SentinelEloquentUser package.
  *
  * NOTICE OF LICENSE
  *
@@ -10,7 +10,7 @@
  * This source file is subject to the 3-clause BSD License that is
  * bundled with this package in the LICENSE file.
  *
- * @package    Sentinel
+ * @package    SentinelEloquentUser
  * @version    6.0.0
  * @author     Cartalyst LLC
  * @license    BSD License (3-clause)
@@ -24,7 +24,7 @@ return [
     | Session Key
     |--------------------------------------------------------------------------
     |
-    | Please provide your session key for Sentinel.
+    | Please provide your session key for SentinelEloquentUser.
     |
     */
 
@@ -35,7 +35,7 @@ return [
     | Cookie Key
     |--------------------------------------------------------------------------
     |
-    | Please provide your cookie key for Sentinel.
+    | Please provide your cookie key for SentinelEloquentUser.
     |
     */
 
@@ -46,12 +46,13 @@ return [
     | Users
     |--------------------------------------------------------------------------
     |
-    | Please provide the user model used in Sentinel.
+    | Please provide the user model used in SentinelEloquentUser.
     |
     */
 
     'users' => [
-        'model' => 'Cartalyst\Sentinel\Users\EloquentUser',
+//        'model' => 'Cartalyst\Sentinel\Users\EloquentUser',
+        'model' => 'App\Models\SentinelEloquentUser',
     ],
 
     /*
@@ -59,7 +60,7 @@ return [
     | Roles
     |--------------------------------------------------------------------------
     |
-    | Please provide the role model used in Sentinel.
+    | Please provide the role model used in SentinelEloquentUser.
     |
     */
 
@@ -72,11 +73,11 @@ return [
     | Permissions
     |--------------------------------------------------------------------------
     |
-    | Here you may specify the permissions class. Sentinel ships with two
+    | Here you may specify the permissions class. SentinelEloquentUser ships with two
     | permission types.
     |
-    | 'Cartalyst\Sentinel\Permissions\StandardPermissions'
-    | 'Cartalyst\Sentinel\Permissions\StrictPermissions'
+    | 'Cartalyst\SentinelEloquentUser\Permissions\StandardPermissions'
+    | 'Cartalyst\SentinelEloquentUser\Permissions\StrictPermissions'
     |
     | "StandardPermissions" will assign a higher priority to the user
     | permissions over role permissions, once a user is allowed or denied
