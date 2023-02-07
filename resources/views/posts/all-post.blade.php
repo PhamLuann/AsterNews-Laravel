@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'All Post')
+@section('title', 'Aster news')
 @section('content')
     @include('partials.category')
     <div id="post" class="mt-6">

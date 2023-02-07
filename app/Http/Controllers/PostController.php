@@ -4,52 +4,42 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Post;
+use App\Repositories\Category\CategoryRepositoryInterface;
+use App\Repositories\Post\PostRepositoryInterface;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+    protected $postRepository;
+    protected $categoryRepository;
+    protected $categories;
+
+    public function __construct(PostRepositoryInterface $postRepositoryInterface, CategoryRepositoryInterface $categoryRepositoryInterface)
+    {
+        $this->postRepository = $postRepositoryInterface;
+        $this->categoryRepository = $categoryRepositoryInterface;
+        $this->categories = $this->categoryRepository->getAll();
+    }
+
     public function getAll()
     {
-        $posts = Post::select([
-            'posts.id',
-            'title',
-            'slug',
-            'description',
-            'hero',
-            'posts.created_at',
-            'users.name AS author'
-        ])
-            ->join('users', 'users.id', 'author_id')
-            ->paginate(20);
-        $categories = Category::all();
+        $posts = $this->postRepository->getAllPostWithAuthor();
+        $categories = $this->categories;
         return view('posts.all-post', compact('posts', 'categories'));
     }
 
     public function show($slug)
     {
-        $post = Post::select([
-            'posts.*',
-            'categories.name AS category',
-            'categories.id AS category_id',
-            'users.name AS author'
-        ])
-            ->join('users', 'users.id', 'posts.author_id')
-            ->join('categories', 'categories.id', 'posts.category_id')
-            ->where('slug', $slug)->first();
-        $more = Post::select([
-            'posts.id',
-            'title',
-            'slug',
-            'description',
-            'hero',
-            'posts.created_at',
-            'users.name AS author'
-        ])
-            ->join('users', 'users.id', 'author_id')
-            ->where('category_id', $post->category_id)
-            ->where('posts.id', '<>', $post->id)
-            ->paginate(10);
-        $categories = Category::all();
+        $posts = $this->postRepository->show($slug);
+        $post = $posts['post'];
+        $more = $posts['more'];
+        $categories = $this->categories;
         return view('posts.news-feed', compact('post', 'more', 'categories'));
+    }
+
+    public function getByCategory($slug){
+        $posts = $this->postRepository->getByCategory($slug);
+        $categories = $this->categories;
+        return view('posts.all-post', compact('posts', 'categories'));
     }
 }

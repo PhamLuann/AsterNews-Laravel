@@ -4,6 +4,7 @@ namespace App\Orchid\Screens\Categories;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Actions\Link;
@@ -91,6 +92,7 @@ class CategoryEditScreen extends Screen
            ]
         ]);
         $category->fill($request->get('category'));
+        $category->offsetSet('slug', Str::slug($category->name));
         if($category->save()){
             Toast::success(__('Success!'))->delay(1500);
             return redirect()->route('category.list');

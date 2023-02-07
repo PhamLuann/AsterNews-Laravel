@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'News Feed')
+@section('title', 'Reading')
 @section('content')
     @include('partials.category')
     <div class="mt-6">
