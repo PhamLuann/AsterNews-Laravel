@@ -3,46 +3,41 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\User\UserRequest;
+use App\Models\Role;
 use App\Models\User;
 use Cartalyst\Sentinel\Checkpoints\NotActivatedException;
 use Cartalyst\Sentinel\Checkpoints\ThrottlingException;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Cartalyst\Sentinel\Users\EloquentUser;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
-    public function getRouteForRole(EloquentUser $user)
-    {
-        setcookie('name', $user['name'], time() + 86400, '/');
-        if ($user->inRole('admin')) {
-            return 'admin.home';
-        } else {
-            return 'home';
-        }
+    public function doHandle(User $user){
+        $user->last_login = now();
+        $user->save();
+        Auth::login($user);
+        return 'home';
     }
-
     private function handleDriver($driver){
         try {
-            $googleUser = Socialite::driver($driver)->user();
+            $driverUser = Socialite::driver($driver)->user();
             $credentials = [
-                'name' => $googleUser->name,
-                'password' => $googleUser->email,
-                'email' => $googleUser->email,
-                'auth_id' => $googleUser->id,
+                'name' => $driverUser->name,
+                'password' => Hash::make($driverUser->email),
+                'email' => $driverUser->email,
+                'auth_id' => $driverUser->id,
                 'createBy' => $driver,
             ];
-            $existed = EloquentUser::where('auth_id', $credentials['auth_id'])->where('createBy', $credentials['createBy'])->first();
+            $existed = User::where('auth_id', $credentials['auth_id'])->where('createBy', $credentials['createBy'])->first();
             if ($existed) {
-                Sentinel::authenticate($existed);
-                return $this->getRouteForRole($existed);
+                return $this->doHandle($existed);
             } else {
-                $register = Sentinel::registerAndActivate($credentials);
-                $role = Sentinel::findRoleBySlug('user');
-                $role->users()->attach($register);
-                $logged = Sentinel::authenticate($register);
-                return $this->getRouteForRole($logged);
+                $user = User::create($credentials);
+                return $this->doHandle($user);
             }
         } catch (\Exception $exception) {
             Session::flash('err', $exception->getMessage());
@@ -57,21 +52,24 @@ class AuthController extends Controller
 
     public function postLogin(UserRequest $request)
     {
-        try {
-            if (Sentinel::authenticate($request->all())) {
-                $user = Sentinel::getUser();
-                return redirect()->route($this->getRouteForRole($user));
-            } else {
-                $err = "Username or Password incorrect!";
-                return redirect()->back()->with('errLogin', $err)->withInput();
+        $credentials = $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required'],
+        ]);
+        $user = User::where('email', $credentials['email'])->first();
+        if ($user->activation()->first()->completed) {
+            if(Auth::attempt($credentials)){
+                return redirect()->route($this->doHandle($user));
+            }else{
+                return back()->withErrors([
+                    'email' => 'Email or password incorrect',
+                ])->onlyInput('email');
             }
-        } catch (NotActivatedException $e) {
-            $err = "Account not active!";
-        } catch (ThrottlingException $e) {
-            $delay = $e->getDelay();
-            $err = "You has been blocked in {$delay} seconds!";
+        }else{
+            return back()->withErrors([
+                'email' => 'Account not active!',
+            ])->withInput();
         }
-        return redirect()->back()->withInput()->with('errLogin', $err);
     }
 
     public function redirectFacebook()
@@ -95,8 +93,7 @@ class AuthController extends Controller
     }
     public function logout()
     {
-        setcookie('name', "", time() - 86400, '/');
-        Sentinel::logout();
+        Auth::logout();
         return redirect(route('login'));
     }
 }

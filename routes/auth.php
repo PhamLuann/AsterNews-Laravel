@@ -29,13 +29,13 @@ Route::controller(AuthController::class)->group(function () {
 });
 Route::controller(RegisterController::class)->name('register.')->group(function (){
     Route::get('/register', 'register')->name('form');
-    Route::post('/register', 'processRegister')->name('')->name('process');
+    Route::post('/register', 'processRegister')->name('process');
     Route::get('/active/{userId}/{code}', 'activeAccount')->name('active');
 });
 
-Route::prefix('password')->controller(ResetPasswordController::class)->name('password.')->group(function (){
+Route::prefix('password')->middleware('guest')->controller(ResetPasswordController::class)->name('password.')->group(function (){
    Route::get('/forgot', 'forgotPassword')->name('forgot');
-   Route::post('/code', 'sendCode')->name('sendcode');
-   Route::get('/reset/{userId}/{code}', 'resetPassword')->name('reset');
-   Route::post('/reset', 'processReset')->name('reset.process');
+   Route::post('/code', 'sendCode')->name('email');
+   Route::get('/reset/{token}', 'resetPassword')->name('reset');
+   Route::post('/reset', 'processReset')->name('update');
 });

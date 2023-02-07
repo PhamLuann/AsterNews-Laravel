@@ -5,11 +5,13 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Email;
 use App\Http\Requests\User\RegisterRequest;
-use Cartalyst\Sentinel\Laravel\Facades\Activation;
-use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
+use App\Models\Activation;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 class RegisterController extends Controller
 {
@@ -22,24 +24,31 @@ class RegisterController extends Controller
     {
         DB::beginTransaction();
         try {
-            $request->offsetSet('createBy', 'Registration');
             if (Email::checkEmail($request->get('email'))) {
                 return redirect()->back()->withInput()->with('emailErr', 'Email is already exist!');
-            } elseif ($user = Sentinel::register($request->all())) {
-                $activationCode = Activation::create($user)->code;
-                $role = Sentinel::findRoleBySlug('user');
-                $role->users()->attach($user);
-
+            } else {
+                $creadentials = [
+                    'email' => $request->email,
+                    'name' => $request->name,
+                    'password' => Hash::make($request->password),
+                    'createBy' => 'registration',
+                ];
+                $user = User::create($creadentials);
                 try {
+                    $code = Activation::create([
+                        'user_id' => $user->id,
+                        'code' => Str::random(64),
+                        'completed' => 0,
+                    ]);
                     $sent = Mail::send(
                         'auth.email.activate',
-                        compact('user', 'activationCode'),
+                        compact('user', 'code'),
                         function ($mail) use ($user) {
                             $mail->to($user->email)->subject('Active your account');
                         }
                     );
                     DB::commit();
-                    Session::flash('msg', 'Send mail success');
+                    Session::flash('msg', 'Send mail success!');
                     return redirect()->route('login')->withInput();
                 } catch (\Exception $exception) {
                     Session::flash('err', 'Send mail failed');
@@ -55,14 +64,16 @@ class RegisterController extends Controller
         }
     }
 
+
     public function activeAccount($userId, $code)
     {
-        $user = Sentinel::findById($userId);
-        if (Activation::complete($user, $code)) {
+        $active = Activation::where('user_id', $userId)->where('code', $code)->first();
+        $active->completed = 1;
+        $active->completed_at = now();
+        if ($active->save()) {
             Session::flash('msg', 'Active success!');
             return redirect()->route('login');
         } else {
-            Activation::removeExpired();
             Session::flash('err', 'Active failed!');
             return redirect()->route('register.form');
         }

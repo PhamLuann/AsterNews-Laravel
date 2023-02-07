@@ -35,7 +35,7 @@ class CategoryListLayout extends Table
                     return Link::make($category->name)
                         ->route('category.edit', $category);
                 }),
-            TD::make('description', 'Description'),
+            TD::make('description', 'Description')->width(550),
             TD::make('created_at', 'Create at')->sort(),
             TD::make('updated_at', 'Update at')->sort(),
             TD::make(__('Action'))

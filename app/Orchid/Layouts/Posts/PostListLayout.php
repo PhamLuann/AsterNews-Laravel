@@ -31,11 +31,12 @@ class PostListLayout extends Table
         return [
             TD::make('title', 'Title')
                 ->sort()
+                ->width(100)
                 ->render(function (Post $post){
                     return Link::make($post->title)
                         ->route('post.edit', $post);
                 }),
-            TD::make('description', 'Description'),
+            TD::make('description', 'Description')->width(250),
             TD::make('body', 'Body'),
             TD::make('created_at', 'Create at')->sort(),
             TD::make('updated_at', 'Update at')->sort(),

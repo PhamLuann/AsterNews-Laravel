@@ -5,6 +5,7 @@ namespace App\Orchid\Screens\Posts;
 use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Fields\Cropper;
 use Orchid\Screen\Fields\Input;
@@ -108,6 +109,7 @@ class PostEditScreen extends Screen
     {
         $post->fill($request->get('post'));
         $post->offsetSet('author_id', auth()->user()->id);
+        $post->offsetSet('slug', Str::of($request->post['title'])->slug('-'));
         if ($post->save()) {
             $post->attachment()->syncWithoutDetaching(
                 $request->input('post.attachment', [])
