@@ -45,6 +45,9 @@
         </div>
     </div>
     <!-- end post -->
+    <div class="flex w-full justify-center mt-5">
+        <div>{{$posts->links()}}</div>
+    </div>
     <!-- follow -->
     <div class="my-11">
         <div class="flex items-center justify-between">

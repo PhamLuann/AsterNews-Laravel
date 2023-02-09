@@ -7,6 +7,7 @@ use App\Models\Post;
 use App\Models\User;
 use App\Repositories\Category\CategoryRepository;
 use App\Repositories\Category\CategoryRepositoryInterface;
+use App\Repositories\Post\PostRepository;
 use Carbon\Carbon;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Console\Command;
@@ -32,24 +33,28 @@ class CrawlDataObserver extends CrawlObserver
     //
     public function crawled(UriInterface $url, ResponseInterface $response, ?UriInterface $foundOnUrl = null): void
     {
-        $this->console->total_crawled++;
+        $this->console->info('Crawling...');
         $html = (string)$response->getBody();
 
         $crawler = new Crawler($html);
-        $title = $this->getData($crawler, '//h1[@class="title-detail"]');
-        $description = $this->getData($crawler, '//div[@class="sidebar-1"]/p[@class="description"]');
-        $data = [
-            'title' => $title->text(),
-            'slug' => Str::slug($title->text()),
-            'description'=>$description->text(),
-            'body' => $this->getBody($crawler),
-            'hero' => $this->getHero($crawler),
-            'category_id' => $this->getCategory($crawler),
-            'author_id' => $this->getAuthorId($crawler),
-            'created_at' => $this->getTime($crawler)
-        ];
-        Post::create($data);
-        dd($this->console->total_crawled);
+        if ($this->getData($crawler, '//h1')->attr('class') === "title-detail") {
+            $title = $this->getData($crawler, '//h1[@class="title-detail"]');
+            $description = $this->getData($crawler, '//p[@class="description"]');
+            $data = [
+                'title' => $title->text(),
+                'slug' => Str::slug($title->text()),
+                'description' => $description->text(),
+                'body' => $this->getBody($crawler),
+                'hero' => $this->getHero($crawler),
+                'category_id' => $this->getCategory($crawler),
+                'author_id' => $this->getAuthorId($crawler),
+                'created_at' => $this->getTime($crawler)
+            ];
+            $postExists = (new PostRepository())->getBySlug($data['slug']);
+            if ($postExists == null){
+                Post::create($data);
+            }
+        }
     }
 
     public function crawlFailed(
@@ -60,32 +65,40 @@ class CrawlDataObserver extends CrawlObserver
         $this->console->error('Crawl error!');
     }
 
-    public function getData(Crawler $crawler, String $fillter)
+    public function finishedCrawling(): void
+    {
+        $this->console->info('Crawler finished!');
+    }
+
+    public function getData(Crawler $crawler, string $fillter)
     {
         $result = $crawler->filterXPath($fillter);
         return $result;
     }
 
-    public function getCategory(Crawler $crawler){
+    public function getCategory(Crawler $crawler)
+    {
         $category = $this->getData($crawler, '//ul[@class="breadcrumb"]/li/a')->first();
         $categoryRepository = new CategoryRepository();
         $category_slug = Str::slug($category->text());
-        $category_id = $categoryRepository->getIdBySlug($category_slug);
-        if($category_id == null){
+        $category_id = $categoryRepository->getBySlug($category_slug);
+        if ($category_id == null) {
             $cat = new Category([
                 'name' => $category->text(),
                 'slug' => $category_slug
             ]);
             $category_id = $categoryRepository->create($cat);
+            return $category_id;
         }
-        return $category_id;
+        return $category_id->id;
     }
 
-    public function getAuthorId(Crawler $crawler){
-        $author_name = $this->getData($crawler, '//p[@class="author_mail"]/strong')->text();
+    public function getAuthorId(Crawler $crawler)
+    {
+        $author_name = $crawler->filter('p>strong')->last()->text();
         $author_id = User::select('id')->where('name', $author_name)->first();
-        if ($author_id == null){
-            $email = Str::slug($author_name)."@gmail.com";
+        if ($author_id == null) {
+            $email = Str::slug($author_name) . "@gmail.com";
             $user = new User([
                 'name' => $author_name,
                 'email' => $email,
@@ -97,24 +110,33 @@ class CrawlDataObserver extends CrawlObserver
         return $author_id->id;
     }
 
-    public function getTime(Crawler $crawler){
+    public function getTime(Crawler $crawler)
+    {
         $time = $this->getData($crawler, '//span[@class="date"]')->text();
-        $time = trim(substr($time, 10, -7));
-        $created_time = Carbon::createFromFormat('m/d/Y, H:i', $time)->format('Y-m-d H:i:s');
+        $time = trim(substr($time, -24, 16));
+        $created_time = Carbon::createFromFormat('d/m/Y, H:i', $time)->format('Y-m-d H:i:s');
         return $created_time;
     }
 
-    public function getBody(Crawler $crawler){
+    public function getBody(Crawler $crawler)
+    {
         $contents = $this->getData($crawler, '//p[@class="Normal"]');
         $body = "";
-        foreach ($contents as $content){
-            $body = $body."<p>".$content->textContent."</p>";
+        foreach ($contents as $content) {
+            $body = $body . "<p>" . $content->textContent . "</p>";
         }
         return $body;
     }
 
-    public function getHero(Crawler $crawler){
-        $heroUrl = $this->getData($crawler, '//img[@class="lazy"]')->attr('data-src');
-        return $heroUrl;
+    public function getHero(Crawler $crawler)
+    {
+        $img = $this->getData($crawler, '//img')->each(function ($image){
+            return $image->attr('class');
+        });
+        if (array_search('lazy', $img) > 0) {
+            $heroUrl = $this->getData($crawler, '//img[@class="lazy"]')->attr('data-src');
+            return $heroUrl;
+        }
+        return null;
     }
 }

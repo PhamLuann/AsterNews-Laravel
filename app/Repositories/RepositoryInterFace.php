@@ -23,4 +23,17 @@ interface RepositoryInterFace
      * @return mixed
      */
     public function create($object);
+
+    /**
+     * @param $paginate
+     * @return mixed
+     */
+    public function selectPaginate($paginate);
+
+    /**
+     * get a record by slug
+     * @param $slug
+     * @return mixed
+     */
+    public function getBySlug($slug);
 }

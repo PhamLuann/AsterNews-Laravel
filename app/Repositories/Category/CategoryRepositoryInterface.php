@@ -11,5 +11,4 @@ interface CategoryRepositoryInterface extends RepositoryInterFace
      * @param $slug
      * @return mixed
      */
-    public function getIdBySlug($slug);
 }

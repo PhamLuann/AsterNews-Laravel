@@ -18,7 +18,7 @@ class PostController extends Controller
     {
         $this->postRepository = $postRepositoryInterface;
         $this->categoryRepository = $categoryRepositoryInterface;
-        $this->categories = $this->categoryRepository->getAll();
+        $this->categories = $this->categoryRepository->selectPaginate(8);
     }
 
     public function getAll()

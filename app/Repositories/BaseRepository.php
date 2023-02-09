@@ -38,4 +38,15 @@ abstract class BaseRepository implements RepositoryInterFace
         $object->save();
         return $object->id;
     }
+
+    public function selectPaginate($paginate)
+    {
+        return $this->model->paginate($paginate);
+    }
+
+    public function getBySlug($slug)
+    {
+        $record = $this->model->select('id')->where('slug', $slug)->first();
+        return $record;
+    }
 }

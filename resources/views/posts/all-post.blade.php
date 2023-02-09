@@ -45,5 +45,7 @@
         </div>
     </div>
     <!-- end post -->
-    <div>{{$posts->links()}}</div>
+    <div class="flex w-full justify-center mt-5">
+        <div>{{$posts->links()}}</div>
+    </div>
 @stop

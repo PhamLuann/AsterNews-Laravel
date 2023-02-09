@@ -43,6 +43,7 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
             'users.name AS author'
         ])
             ->join('users', 'users.id', 'author_id')
+            ->orderBy('id', 'desc')
             ->paginate(20);
 
         return $posts;
@@ -56,6 +57,7 @@ class PostRepository extends BaseRepository implements PostRepositoryInterface
             ->join('users', 'users.id', 'author_id')
             ->join('categories', 'categories.id', 'posts.category_id')
             ->where('categories.slug', $slug)
+            ->orderBy('id', 'desc')
             ->paginate(20);
 
         return $posts;
