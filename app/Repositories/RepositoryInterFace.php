@@ -16,4 +16,11 @@ interface RepositoryInterFace
      * @return mixed
      */
     public function find($id);
+
+    /**
+     * create a record
+     * @param $object
+     * @return mixed
+     */
+    public function create($object);
 }

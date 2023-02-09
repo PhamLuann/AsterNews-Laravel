@@ -194,8 +194,8 @@ class UserEditScreen extends Screen
             ->save();
 
         $user->replaceRoles($request->input('user.roles'));
-        $activation = Sentinel::findById($user->id);
-        Sentinel::activate($activation);
+//        $activation = Sentinel::findById($user->id);
+//        Sentinel::activate($activation);
 
         DB::commit();
         Toast::info(__('User was saved.'));

@@ -32,4 +32,10 @@ abstract class BaseRepository implements RepositoryInterFace
     {
         return $this->model->find($id);
     }
+
+    public function create($object)
+    {
+        $object->save();
+        return $object->id;
+    }
 }

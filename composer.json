@@ -20,8 +20,10 @@
         "laravel/socialite": "^5.5",
         "laravel/tinker": "^2.7",
         "orchid/platform": "^13.9",
-        "symfony/http-foundation": "^6.2",
-        "phamluann/comments": "@dev"
+        "phamluann/comments": "@dev",
+        "spatie/crawler": "^7.1",
+        "symfony/dom-crawler": "^6.2",
+        "symfony/http-foundation": "^6.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.7",

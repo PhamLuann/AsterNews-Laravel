@@ -21,6 +21,8 @@ class Post extends Model
         'author',
         'hero',
         'category_id',
+        'author_id',
+        'created_at'
     ];
 
     public function author(){

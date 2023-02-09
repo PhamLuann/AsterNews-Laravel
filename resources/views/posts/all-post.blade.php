@@ -28,13 +28,13 @@
                     <div class="flex mt-4 w-11/12 absolute bottom-4 left-7">
                         <div class="flex items-center text-xs opacity-40">
                             <p class="mr-2.5">{{$post->author}}</p>
-                            <img src="./img/icon/choose-icon.png" class="w-0.5 h-0.5 mr-2.5">
+                            <img src="{{asset('img/icon/choose-icon.png')}}" class="w-0.5 h-0.5 mr-2.5">
                             <p>{{$post->created_at->diffForHumans()}}</p>
                         </div>
                         <div class="flex items-center text-primary text-xs absolute right-0 hover:cursor-pointer">
-                            <img src="./img/icon/share.png" class="w-4 h-4 mr-2.5">
+                            <img src="{{asset('/img/icon/share.png')}}" class="w-4 h-4 mr-2.5">
                             <p class="hidden xl:block">Share</p>
-                            <img src="./img/icon/pocket.png" class="w-4 h-4 ml-7 mr-2.5">
+                            <img src="{{asset('img/icon/pocket.png')}}" class="w-4 h-4 ml-7 mr-2.5">
                             <p class="hidden xl:block">Read Later</p>
                         </div>
                     </div>

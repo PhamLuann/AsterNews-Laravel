@@ -10,19 +10,21 @@
             </div>
             <p class="mt-5 text-lg leading-loose">{{$post->description}}</p>
             @if($post->hero != null)
-                <img src="{{asset($post->hero)}}" class="mt-9 w-fit rounded">
+                <div class="flex justify-center">
+                    <img src="{{asset($post->hero)}}" class="mt-9 w-fit rounded">
+                </div>
             @endif
             <div class="text-17 mt-10 leading-loose">
                 {!!$post->body!!}
             </div>
             <div class="mt-9 flex justify-center text-xs opacity-50">
-                <p>Published {{$post->created_at}}</p>
+                <p>Đăng lúc {{$post->created_at}}</p>
             </div>
             <div class="mt-2 flex justify-center text-xs">
-                <p>by {{$post->author}}</p>
+                <p>tác giả: {{$post->author}}</p>
             </div>
             <div class="mt-2 flex justify-center text-xs text-skyblue">
-                <a href="#" class="underline decoration-solid">Back to top</a>
+                <a href="#" class="underline decoration-solid">Trở về đầu trang</a>
             </div>
         </div>
     </div>
@@ -81,14 +83,14 @@
                     <div class="flex mt-4 w-11/12 absolute bottom-4 left-7">
                         <div class="flex items-center text-xs opacity-40">
                             <p class="mr-2.5">{{$more_post->author}}</p>
-                            <img src="./img/icon/choose-icon.png" class="w-0.5 h-0.5 mr-2.5">
+                            <img src="{{asset('img/icon/choose-icon.png')}}" class="w-0.5 h-0.5 mr-2.5">
                             <p>{{$more_post->created_at->diffForHumans()}}</p>
                         </div>
                         <div class="flex items-center text-primary text-xs absolute right-0 hover:cursor-pointer">
-                            <img src="./img/icon/share.png" class="w-4 h-4 mr-2.5">
-                            <p class="hidden xl:block">Share</p>
-                            <img src="./img/icon/pocket.png" class="w-4 h-4 ml-7 mr-2.5">
-                            <p class="hidden xl:block">Read Later</p>
+                            <img src="{{asset('img/icon/share.png')}}" class="w-4 h-4 mr-2.5">
+                            <p class="hidden xl:block">Chia sẻ</p>
+                            <img src="{{asset('img/icon/pocket.png')}}" class="w-4 h-4 ml-7 mr-2.5">
+                            <p class="hidden xl:block">Đọc sau</p>
                         </div>
                     </div>
                 </div>
