@@ -95,7 +95,7 @@ class CrawlDataObserver extends CrawlObserver
 
     public function getAuthorId(Crawler $crawler)
     {
-        $author_name = $crawler->filter('p>strong')->last()->text();
+        $author_name = $crawler->filterXPath('//p')->last()->children()->text();
         $author_id = User::select('id')->where('name', $author_name)->first();
         if ($author_id == null) {
             $email = Str::slug($author_name) . "@gmail.com";
