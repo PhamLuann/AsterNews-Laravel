@@ -22,7 +22,7 @@ class HomeController extends Controller
     //
     public function index(){
         $posts = $this->postRepository->getAllPostWithAuthor();
-        $categories = $this->categoryRepository->selectPaginate(8);
+        $categories = $this->categoryRepository->getAll();
         return view('index', compact('posts', 'categories'));
     }
 }
