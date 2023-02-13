@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\UriInterface;
+use Psr\Log\InvalidArgumentException;
 use Spatie\Crawler\CrawlObservers\CrawlObserver;
 use Symfony\Component\DomCrawler\Crawler;
 
@@ -33,11 +34,10 @@ class CrawlDataObserver extends CrawlObserver
     //
     public function crawled(UriInterface $url, ResponseInterface $response, ?UriInterface $foundOnUrl = null): void
     {
-        $this->console->info('Crawling...');
         $html = (string)$response->getBody();
-
         $crawler = new Crawler($html);
-        if ($this->getData($crawler, '//h1')->attr('class') === "title-detail") {
+        $h1 = $this->getData($crawler, '//h1');
+        if ($h1->count() > 0 && $h1->attr('class') === "title-detail") {
             $title = $this->getData($crawler, '//h1[@class="title-detail"]');
             $description = $this->getData($crawler, '//p[@class="description"]');
             $data = [
@@ -46,13 +46,14 @@ class CrawlDataObserver extends CrawlObserver
                 'description' => $description->text(),
                 'body' => $this->getBody($crawler),
                 'hero' => $this->getHero($crawler),
-                'category_id' => $this->getCategory($crawler),
+                'category_id' => $this->getCategory($crawler)??1,
                 'author_id' => $this->getAuthorId($crawler),
                 'created_at' => $this->getTime($crawler)
             ];
             $postExists = (new PostRepository())->getBySlug($data['slug']);
             if ($postExists == null){
                 Post::create($data);
+                $this->console->info('crawled a post.');
             }
         }
     }
@@ -78,24 +79,32 @@ class CrawlDataObserver extends CrawlObserver
 
     public function getCategory(Crawler $crawler)
     {
-        $category = $this->getData($crawler, '//ul[@class="breadcrumb"]/li/a')->first();
-        $categoryRepository = new CategoryRepository();
-        $category_slug = Str::slug($category->text());
-        $category_id = $categoryRepository->getBySlug($category_slug);
-        if ($category_id == null) {
-            $cat = new Category([
-                'name' => $category->text(),
-                'slug' => $category_slug
-            ]);
-            $category_id = $categoryRepository->create($cat);
-            return $category_id;
+        try {
+            $category = $this->getData($crawler, '//ul[@class="breadcrumb"]/li/a')->first();
+            $categoryRepository = new CategoryRepository();
+            $category_slug = Str::slug($category->text());
+            $category_id = $categoryRepository->getBySlug($category_slug);
+            if ($category_id == null) {
+                $cat = new Category([
+                    'name' => $category->text(),
+                    'slug' => $category_slug
+                ]);
+                $category_id = $categoryRepository->create($cat);
+                return $category_id;
+            }
+            return $category_id->id;
+        }catch (InvalidArgumentException){
+            return false;
         }
-        return $category_id->id;
+
     }
 
     public function getAuthorId(Crawler $crawler)
     {
-        $author_name = $crawler->filterXPath('//p')->last()->children()->text();
+        $author_name = $crawler->filterXPath('//p[@class="Normal"]/strong')->last();
+        $author_name->count() == 0 ?$author_name = $crawler->filterXPath('//article/p')->last():$author_name;
+        $author_name->count() == 0 ?$author_name = $crawler->filterXPath('//p')->last():$author_name;
+        $author_name = $author_name->text();
         $author_id = User::select('id')->where('name', $author_name)->first();
         if ($author_id == null) {
             $email = Str::slug($author_name) . "@gmail.com";

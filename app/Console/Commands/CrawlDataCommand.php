@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Observers\CrawlDataObserver;
+use App\Observers\CrawlProfileVnExpress;
 use Illuminate\Console\Command;
 use Spatie\Crawler\Crawler;
 
