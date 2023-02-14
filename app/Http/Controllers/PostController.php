@@ -23,7 +23,7 @@ class PostController extends Controller
 
     public function getAll()
     {
-        $posts = $this->postRepository->getAllPostWithAuthor();
+        $posts = $this->postRepository->selectPaginate(30);
         $categories = $this->categories;
         return view('posts.all-post', compact('posts', 'categories'));
     }

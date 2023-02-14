@@ -4,14 +4,11 @@ namespace App\Observers;
 
 use App\Models\Category;
 use App\Models\Post;
-use App\Models\User;
 use App\Repositories\Category\CategoryRepository;
-use App\Repositories\Category\CategoryRepositoryInterface;
 use App\Repositories\Post\PostRepository;
 use Carbon\Carbon;
 use GuzzleHttp\Exception\RequestException;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\UriInterface;
@@ -46,12 +43,11 @@ class CrawlDataObserver extends CrawlObserver
                 'description' => $description->text(),
                 'body' => $this->getBody($crawler),
                 'hero' => $this->getHero($crawler),
-                'category_id' => $this->getCategory($crawler)??1,
-                'author_id' => $this->getAuthorId($crawler),
+                'category_id' => $this->getCategory($crawler),
                 'created_at' => $this->getTime($crawler)
             ];
             $postExists = (new PostRepository())->getBySlug($data['slug']);
-            if ($postExists == null){
+            if ($postExists == null) {
                 Post::create($data);
                 $this->console->info('crawled a post.');
             }
@@ -79,8 +75,10 @@ class CrawlDataObserver extends CrawlObserver
 
     public function getCategory(Crawler $crawler)
     {
-        try {
             $category = $this->getData($crawler, '//ul[@class="breadcrumb"]/li/a')->first();
+            if($category->count() == 0){
+                return 18;
+            }
             $categoryRepository = new CategoryRepository();
             $category_slug = Str::slug($category->text());
             $category_id = $categoryRepository->getBySlug($category_slug);
@@ -93,30 +91,6 @@ class CrawlDataObserver extends CrawlObserver
                 return $category_id;
             }
             return $category_id->id;
-        }catch (InvalidArgumentException){
-            return false;
-        }
-
-    }
-
-    public function getAuthorId(Crawler $crawler)
-    {
-        $author_name = $crawler->filterXPath('//p[@class="Normal"]/strong')->last();
-        $author_name->count() == 0 ?$author_name = $crawler->filterXPath('//article/p')->last():$author_name;
-        $author_name->count() == 0 ?$author_name = $crawler->filterXPath('//p')->last():$author_name;
-        $author_name = $author_name->text();
-        $author_id = User::select('id')->where('name', $author_name)->first();
-        if ($author_id == null) {
-            $email = Str::slug($author_name) . "@gmail.com";
-            $user = new User([
-                'name' => $author_name,
-                'email' => $email,
-                'password' => Hash::make($email),
-            ]);
-            $user->save();
-            return $user->id;
-        }
-        return $author_id->id;
     }
 
     public function getTime(Crawler $crawler)
@@ -129,17 +103,17 @@ class CrawlDataObserver extends CrawlObserver
 
     public function getBody(Crawler $crawler)
     {
-        $contents = $this->getData($crawler, '//p[@class="Normal"]');
-        $body = "";
-        foreach ($contents as $content) {
-            $body = $body . "<p>" . $content->textContent . "</p>";
-        }
-        return $body;
+        $contents = $this->getData($crawler, '//article[@class="fck_detail "]');
+        $contents->count() == 0 ? $contents = $this->getData($crawler,
+            '//article[@class="fck_detail"]')->html() : $contents = $contents->html();
+        $contents = preg_replace("/src=\"data\S*\"/", "", $contents);
+        $contents = str_replace("data-src", "src", $contents);
+        return $contents;
     }
 
     public function getHero(Crawler $crawler)
     {
-        $img = $this->getData($crawler, '//img')->each(function ($image){
+        $img = $this->getData($crawler, '//img')->each(function ($image) {
             return $image->attr('class');
         });
         if (array_search('lazy', $img) > 0) {

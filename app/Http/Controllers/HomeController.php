@@ -21,7 +21,7 @@ class HomeController extends Controller
 
     //
     public function index(){
-        $posts = $this->postRepository->getAllPostWithAuthor();
+        $posts = $this->postRepository->selectPaginate(30);
         $categories = $this->categoryRepository->getAll();
         return view('index', compact('posts', 'categories'));
     }

@@ -6,6 +6,7 @@ use App\Observers\CrawlDataObserver;
 use App\Observers\CrawlProfileVnExpress;
 use Illuminate\Console\Command;
 use Spatie\Crawler\Crawler;
+use Spatie\Crawler\CrawlProfiles\CrawlInternalUrls;
 
 class CrawlDataCommand extends Command
 {

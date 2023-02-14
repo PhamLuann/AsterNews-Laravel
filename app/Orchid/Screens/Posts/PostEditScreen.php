@@ -88,7 +88,10 @@ class PostEditScreen extends Screen
                 Cropper::make('post.hero')
                     ->title('Large post banner image')
                     ->width(1000)
-                    ->height(500),
+                    ->height(500)
+                    ->render(function (Post $post){
+
+                    }),
 
                 TextArea::make('post.description')
                     ->title('Description')

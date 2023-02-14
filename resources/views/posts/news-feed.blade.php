@@ -9,19 +9,11 @@
                 <a href="#" class="bg-sky-100 rounded py-1 px-3 mr-2.5 hover:bg-sky-200">{{$post->category}}</a>
             </div>
             <p class="mt-5 text-lg leading-loose">{{$post->description}}</p>
-            @if($post->hero != null)
-                <div class="flex justify-center">
-                    <img src="{{asset($post->hero)}}" class="mt-9 w-fit rounded">
-                </div>
-            @endif
             <div class="text-17 mt-10 leading-loose">
                 {!!$post->body!!}
             </div>
             <div class="mt-9 flex justify-center text-xs opacity-50">
                 <p>Đăng lúc {{$post->created_at}}</p>
-            </div>
-            <div class="mt-2 flex justify-center text-xs">
-                <p>tác giả: {{$post->author}}</p>
             </div>
             <div class="mt-2 flex justify-center text-xs text-skyblue">
                 <a href="#" class="underline decoration-solid">Trở về đầu trang</a>
@@ -82,8 +74,6 @@
                     @endif
                     <div class="flex mt-4 w-11/12 absolute bottom-4 left-7">
                         <div class="flex items-center text-xs opacity-40">
-                            <p class="mr-2.5">{{$more_post->author}}</p>
-                            <img src="{{asset('img/icon/choose-icon.png')}}" class="w-0.5 h-0.5 mr-2.5">
                             <p>{{$more_post->created_at->diffForHumans()}}</p>
                         </div>
                         <div class="flex items-center text-primary text-xs absolute right-0 hover:cursor-pointer">

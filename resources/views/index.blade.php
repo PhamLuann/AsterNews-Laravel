@@ -7,7 +7,8 @@
             @forelse($posts as $post)
                 <div class="mt-5 w-full h-auto bg-white pt-4 pb-11 px-7 relative">
                     @if($post->hero!=null)
-                        <a href="{{route('showPost', [$post->slug])}}" class="flex grid grid-cols-10 gap-2 hover:text-blue-900">
+                        <a href="{{route('showPost', [$post->slug])}}"
+                           class="flex grid grid-cols-10 gap-2 hover:text-blue-900">
                             <div class="col-span-6 sm:col-span-8 md:col-span-6">
                                 <p class="font-medium text-lg flex">{{$post->title}}</p>
                                 <p class="mt-2.5 text-sm leading-6 opacity-60">{{$post->description}}</p>
@@ -27,8 +28,6 @@
                     @endif
                     <div class="flex mt-4 w-11/12 absolute bottom-4 left-7">
                         <div class="flex items-center text-xs opacity-40">
-                            <p class="mr-2.5">{{$post->author}}</p>
-                            <img src="./img/icon/choose-icon.png" class="w-0.5 h-0.5 mr-2.5">
                             <p>{{$post->created_at->diffForHumans()}}</p>
                         </div>
                         <div class="flex items-center text-primary text-xs absolute right-0 hover:cursor-pointer">
