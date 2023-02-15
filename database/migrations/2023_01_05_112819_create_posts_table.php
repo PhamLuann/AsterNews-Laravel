@@ -19,8 +19,7 @@ return new class extends Migration
             $table->string('description');
             $table->string('hero')->nullable();
             $table->text('body');
-            $table->unsignedInteger('author_id');
-            $table->unsignedInteger('category_id');
+            $table->unsignedBigInteger('category_id');
             $table->timestamps();
         });
     }

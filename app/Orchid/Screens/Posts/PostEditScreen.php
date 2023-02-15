@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Orchid\Screen\Actions\Button;
 use Orchid\Screen\Fields\Cropper;
 use Orchid\Screen\Fields\Input;
+use Orchid\Screen\Fields\Picture;
 use Orchid\Screen\Fields\Quill;
 use Orchid\Screen\Fields\Relation;
 use Orchid\Screen\Fields\TextArea;
@@ -85,14 +86,8 @@ class PostEditScreen extends Screen
                 Relation::make('post.category_id')
                     ->title('Select category')
                     ->fromModel(Category::class, 'name'),
-                Cropper::make('post.hero')
-                    ->title('Large post banner image')
-                    ->width(1000)
-                    ->height(500)
-                    ->render(function (Post $post){
-
-                    }),
-
+                Picture::make('post.hero')
+                    ->title('Large post banner image'),
                 TextArea::make('post.description')
                     ->title('Description')
                     ->rows(3)
@@ -101,17 +96,14 @@ class PostEditScreen extends Screen
 
                 Quill::make('post.body')
                     ->title('Main text'),
-
-                Upload::make('post.attachment')
-                    ->title('All Media'),
-            ])
+            ]),
+            Layout::view('posts.orchid-edit')
         ];
     }
 
     public function createOrUpdate(Post $post, Request $request)
     {
         $post->fill($request->get('post'));
-        $post->offsetSet('author_id', auth()->user()->id);
         $post->offsetSet('slug', Str::of($request->post['title'])->slug('-'));
         if ($post->save()) {
             $post->attachment()->syncWithoutDetaching(

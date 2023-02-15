@@ -18,6 +18,7 @@ use Symfony\Component\DomCrawler\Crawler;
 
 class CrawlDataObserver extends CrawlObserver
 {
+    private $total_crawled = 0;
     public function __construct(Command $command)
     {
         $this->console = $command;
@@ -31,6 +32,7 @@ class CrawlDataObserver extends CrawlObserver
     //
     public function crawled(UriInterface $url, ResponseInterface $response, ?UriInterface $foundOnUrl = null): void
     {
+        $this->total_crawled++;
         $html = (string)$response->getBody();
         $crawler = new Crawler($html);
         $h1 = $this->getData($crawler, '//h1');
@@ -59,12 +61,12 @@ class CrawlDataObserver extends CrawlObserver
         RequestException $requestException,
         ?UriInterface $foundOnUrl = null
     ): void {
-        $this->console->error('Crawl error!');
+        $this->console->error("Crawl error, message: ".$requestException->getMessage());
     }
 
     public function finishedCrawling(): void
     {
-        $this->console->info('Crawler finished!');
+        $this->console->info("Crawl finished, total: $this->total_crawled");
     }
 
     public function getData(Crawler $crawler, string $fillter)
@@ -105,7 +107,13 @@ class CrawlDataObserver extends CrawlObserver
     {
         $contents = $this->getData($crawler, '//article[@class="fck_detail "]');
         $contents->count() == 0 ? $contents = $this->getData($crawler,
-            '//article[@class="fck_detail"]')->html() : $contents = $contents->html();
+            '//article[@class="fck_detail"]') : $contents = $contents;
+        if ($contents->count() == 0) return "";
+        $contents = $contents->html();
+        $contents = preg_replace("/class=\S*\"/", "class=\"w-full leading-loose mt-4\"", $contents);
+        $contents = preg_replace("/style=\S*\"/", "", $contents);
+        $contents = preg_replace("/\<svg \S*.+\<\/svg\>/", "", $contents);
+        $contents = preg_replace("/\<a\S*.+\<\/a\>/", "", $contents);
         $contents = preg_replace("/src=\"data\S*\"/", "", $contents);
         $contents = str_replace("data-src", "src", $contents);
         return $contents;

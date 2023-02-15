@@ -36,8 +36,12 @@ class CategoryListLayout extends Table
                         ->route('category.edit', $category);
                 }),
             TD::make('description', 'Description')->width(550),
-            TD::make('created_at', 'Create at')->sort(),
-            TD::make('updated_at', 'Update at')->sort(),
+            TD::make('created_at', 'Create at')
+                ->sort()
+                ->render(fn(Category $category) => $category->created_at->toDateTimeString()),
+            TD::make('updated_at', 'Update at')
+                ->sort()
+                ->render(fn(Category $category) => $category->updated_at->toDateTimeString()),
             TD::make(__('Action'))
                 ->align(TD::ALIGN_CENTER)
                 ->width('100px')
@@ -50,7 +54,7 @@ class CategoryListLayout extends Table
                         Button::make('Delete')
                             ->icon('trash')
                             ->confirm(__('Once the post is deleted?'))
-                            ->method('remove', ['id'=>$category->id])
+                            ->method('remove', ['id' => $category->id])
                     ])),
         ];
     }

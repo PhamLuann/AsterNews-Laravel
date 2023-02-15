@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Orchid\Screens;
 
+use App\Orchid\Layouts\Categories\CategoryListLayout;
 use Orchid\Screen\Actions\Link;
 use Orchid\Screen\Screen;
 use Orchid\Support\Facades\Layout;
@@ -61,6 +62,8 @@ class PlatformScreen extends Screen
      */
     public function layout(): iterable
     {
-        return [    ];
+        return [
+            Layout::view('__orchid-preview')
+        ];
     }
 }

@@ -32,18 +32,22 @@ class PostListLayout extends Table
             TD::make('title', 'Title')
                 ->sort()
                 ->width(100)
-                ->render(function (Post $post){
+                ->render(function (Post $post) {
                     return Link::make($post->title)
                         ->route('post.edit', $post);
                 }),
             TD::make('description', 'Description')->width(250),
             TD::make('body', 'Body'),
-            TD::make('created_at', 'Create at')->sort(),
-            TD::make('updated_at', 'Update at')->sort(),
+            TD::make('created_at', 'Create at')
+                ->sort()
+                ->render(fn(Post $post) => $post->created_at->toDateTimeString()),
+            TD::make('updated_at', 'Update at')
+                ->sort()
+                ->render(fn(Post $post) => $post->updated_at->toDateTimeString()),
             TD::make(__('Actions'))
                 ->align(TD::ALIGN_CENTER)
                 ->width('100px')
-                ->render(fn (Post $post) => DropDown::make()
+                ->render(fn(Post $post) => DropDown::make()
                     ->icon('options-vertical')
                     ->list([
 

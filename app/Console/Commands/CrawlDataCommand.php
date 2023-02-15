@@ -36,6 +36,9 @@ class CrawlDataCommand extends Command
         $this->info("starting crawl...");
         Crawler::create()
             ->setCrawlObserver(new CrawlDataObserver($this))
+            ->setTotalCrawlLimit(200)
+            ->setDelayBetweenRequests(100)
+            ->setMaximumDepth(50)
             ->startCrawling($url);
     }
 }
