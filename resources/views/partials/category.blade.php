@@ -1,4 +1,4 @@
-<div id="top-items">
+<div id="top-items" class="sticky top-0 z-10 bg-mainbg pb-6">
     <p class="font-bold text-xl mt-9">Top Stories for you</p>
     <div class="relative">
         <ul id="tag-items" class="slick text-center mt-5 flex justify-between items-center mr-14">

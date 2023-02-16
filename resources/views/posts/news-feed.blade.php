@@ -2,7 +2,7 @@
 @section('title', 'Reading')
 @section('content')
     @include('partials.category')
-    <div class="mt-6">
+    <div class="">
         <div class="w-full h-fit py-4">
             <p class="text-[26px] font-bold leading-[34px]">{{$post->title}}</p>
             <div class="mt-3.5 flex text-skyblue text-xs">

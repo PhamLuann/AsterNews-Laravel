@@ -2,7 +2,7 @@
 @section('title', 'Home')
 @section('content')
     @include('partials.category')
-    <div id="post" class="mt-6">
+    <div id="post" class="">
         <div class="md:grid md:grid-cols-2 gap-5">
             @forelse($posts as $post)
                 <div class="mt-5 w-full h-auto bg-white pt-4 pb-11 px-7 relative">
