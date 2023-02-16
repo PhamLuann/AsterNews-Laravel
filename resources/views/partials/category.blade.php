@@ -1,5 +1,4 @@
-<div id="top-items" class="sticky top-0 z-10 bg-mainbg pb-6">
-    <p class="font-bold text-xl mt-9">Top Stories for you</p>
+<div id="top-items" class="sticky top-0 z-10 bg-mainbg pb-6 pt-2 mt-2">
     <div class="relative">
         <ul id="tag-items" class="slick text-center mt-5 flex justify-between items-center mr-14">
             <li id="all" class="item select-top-items h-fit w-fit py-1.5 px-4 rounded-3xl mr-2.5"><a href="{{route('allPost')}}">All</a></li>

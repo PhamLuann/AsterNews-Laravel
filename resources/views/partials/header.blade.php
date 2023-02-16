@@ -1,5 +1,5 @@
 <div class="flex h-[35px]">
-    <div class="flex w-3/4 items-center">
+    <div class="flex w-full items-center">
         <!-- search -->
         <div class="w-full lg:w-2/3 flex items-center">
             <input type="text" placeholder="Search for news.."
@@ -17,23 +17,5 @@
             </a>
         </div>
     </div>
-    <!-- user -->
-    <div class="w-1/4 mr-4">
-        <div id="view-profile" class="h-full flex items-center float-right">
-            @auth()
-                <img src="{{asset('./img/icon/person-icon.png')}}" class="w-6">
-                <p class="text-sm ml-4 lg:mr-9 hover:cursor-pointer">{{auth()->user()->name}}</p>
-                <img src="{{asset('./img/icon/down-icon.png')}}" class="hidden lg:block w-4 hover:cursor-pointer">
-                <div class="hidden" id="profile">
-                    <ul class="absolute top-10 right-4 bg-gray-500 p-4 rounded z-10">
-                        <li class=""><a href="{{route('user.profile')}}" class="text-black">Profile</a></li>
-                        <li class="mt-4"><a href="{{route('logout')}}" class="text-black">Logout</a></li>
-                    </ul>
-                </div>
-            @else
-                <a class="text-sm ml-4" href="{{route('login')}}">Login</a>
-            @endauth
-        </div>
-    </div>
-    <!-- end user -->
+
 </div>

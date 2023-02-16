@@ -1,5 +1,5 @@
-<div id="layer" class="lg:col-span-1 absolute lg:relative z-10">
-    <div class="">
+<div id="layer" class="lg:col-span-1 absolute lg:relative z-20">
+    <div class="sticky top-0">
         <div id="small-logo" class="lg:hidden ml-3.5 flex items-center">
             <button id="menu_btn"><img src="{{asset('./img/icon/menu-icon.png')}}" class="w-6 mr-4"></button>
             <a href="{{route('home')}}"><img src="{{asset('./img/logo.png')}}" alt="logo"></a>
